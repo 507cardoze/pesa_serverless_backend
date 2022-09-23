@@ -4,7 +4,7 @@
 	"description": "PESA REST API",
 	"main": "serverless.ts",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit "
 	},
 	"engines": {
 		"node": ">=14.15.0"
