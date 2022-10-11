@@ -69,7 +69,7 @@ typings/
 .vscode
 
 #mac
-.DS_Store
+**/.DS_Store
 
 #linux
 *.swp
