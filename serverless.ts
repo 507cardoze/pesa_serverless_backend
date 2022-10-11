@@ -1,11 +1,17 @@
 import type { AWS } from '@serverless/typescript';
 
-import hello from '@functions/hello';
+import me from '@functions/me';
+import authorizer from '@functions/authorizer';
 
 const serverlessConfiguration: AWS = {
 	service: 'pesa-serverless-backend',
 	frameworkVersion: '3',
-	plugins: ['serverless-esbuild', 'serverless-offline'],
+	plugins: [
+		'serverless-esbuild',
+		'serverless-offline',
+		'serverless-dotenv-plugin',
+	],
+	useDotenv: true,
 	provider: {
 		name: 'aws',
 		runtime: 'nodejs14.x',
@@ -15,16 +21,18 @@ const serverlessConfiguration: AWS = {
 		},
 		environment: {
 			AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-			NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+			FIREBASE_PROJECT_ID: '${env:FIREBASE_PROJECT_ID}',
+			FIREBASE_PRIVATE_KEY: '${env:FIREBASE_PRIVATE_KEY}',
+			FIREBASE_CLIENT_EMAIL: '${env:FIREBASE_CLIENT_EMAIL}',
 		},
 	},
 	// import the function via paths
-	functions: { hello },
+	functions: { me, authorizer },
 	package: { individually: true },
 	custom: {
 		esbuild: {
 			bundle: true,
-			minify: false,
+			minify: true,
 			sourcemap: true,
 			exclude: ['aws-sdk'],
 			target: 'node14',
