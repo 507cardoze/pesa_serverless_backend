@@ -4,14 +4,17 @@
 	"description": "PESA REST API",
 	"main": "serverless.ts",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"dev": "sls offline",
+		"deploy": "sls deploy"
 	},
 	"engines": {
 		"node": ">=14.15.0"
 	},
 	"dependencies": {
 		"@middy/core": "^2.5.3",
+		"@middy/http-error-handler": "^3.6.0",
 		"@middy/http-json-body-parser": "^2.5.3",
+		"@middy/validator": "^3.6.0",
 		"ajv": "^8.11.0",
 		"firebase-admin": "^11.1.0"
 	},

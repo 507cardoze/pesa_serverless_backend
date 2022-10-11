@@ -31,12 +31,12 @@ const authorizer: APIGatewayTokenAuthorizerHandler = async (
 			});
 
 		const bearerToken = getAuthToken(event.authorizationToken);
-		if (!bearerToken) return generateIamPolicy('Deny', event.methodArn, null);
+		if (!bearerToken) return generateIamPolicy('Deny', event.methodArn);
 		initializeSdk();
 		const decodedData = await admin.auth().verifyIdToken(bearerToken);
 		return generateIamPolicy('Allow', event.methodArn, decodedData);
 	} catch (err) {
-		return generateIamPolicy('Deny', event.methodArn, null);
+		return generateIamPolicy('Deny', event.methodArn);
 	}
 };
 

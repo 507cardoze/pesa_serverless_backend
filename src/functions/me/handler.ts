@@ -1,35 +1,50 @@
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
-import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
+import { APIGatewayProxyHandler } from 'aws-lambda';
+import { HandlePostProps } from './interface/handlePost';
 
-const me: APIGatewayProxyHandler = async (
-	event,
-	_context,
-	callback
-): Promise<APIGatewayProxyResult> => {
+const me: APIGatewayProxyHandler = async (event) => {
 	try {
 		switch (event.httpMethod) {
 			case 'GET':
 				return formatJSONResponse({
-					message: 'User data',
+					message: 'GET method not implemented',
+					event,
 				});
 			case 'POST':
-				const { uid, email, displayName, photoUrl, phoneNumber } = JSON.parse(
-					event.body
-				);
-
 				return formatJSONResponse({
-					message: 'User created',
-					user: { uid, email, displayName, photoUrl, phoneNumber },
+					message: 'POST method not implemented',
+					event,
+				});
+			case 'PUT':
+				return formatJSONResponse({
+					message: 'PUT method not implemented',
+					event,
+				});
+			case 'DELETE':
+				return formatJSONResponse({
+					message: 'DELETE method not implemented',
+					event,
 				});
 			default:
-				callback(new Error('Method not allowed'), null);
-				return;
+				throw new Error('Method not supported');
 		}
 	} catch (error) {
-		callback(error, null);
-		return;
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				message: error.message,
+			}),
+		};
 	}
 };
+
+const handlePOST = ({
+	uid,
+	email,
+	displayName,
+	photoUrl,
+	phoneNumber,
+}: HandlePostProps) => {};
 
 export const main = middyfy(me);

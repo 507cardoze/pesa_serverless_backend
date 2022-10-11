@@ -69,6 +69,7 @@ typings/
 .vscode
 
 #mac
+.DS_Store
 **/.DS_Store
 
 #linux
@@ -112,3 +113,6 @@ panamaesportacademy-firebase-adminsdk-yz4aw-2167241f02.json
 #env
 .env
 .env.local
+
+.build
+**/.build
