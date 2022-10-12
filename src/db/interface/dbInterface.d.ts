@@ -1,7 +1,10 @@
+import { Hardware } from '@db/models/hardware';
 import { Invitation } from '@db/models/invitation';
 import { Player } from '@db/models/player';
 import { Roster } from '@db/models/roster';
 import { Team } from '@db/models/team';
+import { VideoGame } from '@db/models/video-game';
+import { VideoGameHardware } from '@db/models/video-game-hardware';
 import { Sequelize } from 'sequelize';
 
 export interface dbInterface {
@@ -18,4 +21,7 @@ export interface dbInterface {
 	team: Team;
 	roster: Roster;
 	invitation: Invitation;
+	videoGame: VideoGame;
+	hardware: Hardware;
+	videoGameHardware: VideoGameHardware;
 }

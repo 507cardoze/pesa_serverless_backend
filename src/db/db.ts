@@ -5,6 +5,15 @@ import { initPlayer, seedPlayer } from '@db/models/player';
 import { initTeam, seedTeam } from '@db/models/team';
 import { initRoster, seedRoster } from '@db/models/roster';
 import { initInvitation, seedInvitation } from '@db/models/invitation';
+import { initVideoGame, seedVideoGame } from '@db/models/video-game';
+import { initHardware, seedHardware } from '@db/models/hardware';
+import {
+	initVideoGameHardware,
+	seedVideoGameHardware,
+} from '@db/models/video-game-hardware';
+import { rosterAssociation } from '@db/associate/roster';
+import { invitationAssociation } from '@db/associate/invitation';
+import { videoGameHardwareAssociation } from '@db/associate/videogame-hardware';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
@@ -12,6 +21,9 @@ export class db implements dbInterface {
 	team: any;
 	roster: any;
 	invitation: any;
+	videoGame: any;
+	hardware: any;
+	videoGameHardware: any;
 
 	constructor() {
 		this.sequelize = new Sequelize(
@@ -30,68 +42,22 @@ export class db implements dbInterface {
 		initTeam(this.sequelize);
 		initRoster(this.sequelize);
 		initInvitation(this.sequelize);
+		initVideoGame(this.sequelize);
+		initHardware(this.sequelize);
+		initVideoGameHardware(this.sequelize);
 		this.player = this.sequelize.models.player;
 		this.team = this.sequelize.models.team;
 		this.roster = this.sequelize.models.roster;
 		this.invitation = this.sequelize.models.invitation;
+		this.videoGame = this.sequelize.models.videoGame;
+		this.hardware = this.sequelize.models.hardware;
+		this.videoGameHardware = this.sequelize.models.videoGameHardware;
 	}
 
 	async associate() {
-		await this.player.belongsToMany(this.team, {
-			through: this.roster,
-			foreignKey: 'playerId',
-		});
-
-		await this.player.hasMany(this.roster, {
-			foreignKey: 'playerId',
-		});
-
-		await this.roster.belongsTo(this.player, {
-			foreignKey: 'playerId',
-		});
-		// ------------
-		await this.team.belongsToMany(this.player, {
-			through: this.roster,
-			foreignKey: 'teamId',
-		});
-
-		await this.team.hasMany(this.roster, {
-			foreignKey: 'teamId',
-		});
-
-		await this.roster.belongsTo(this.team, {
-			foreignKey: 'teamId',
-		});
-
-		//-- //
-
-		await this.player.belongsToMany(this.team, {
-			through: this.invitation,
-			foreignKey: 'playerId',
-		});
-
-		await this.player.hasMany(this.invitation, {
-			foreignKey: 'playerId',
-		});
-
-		await this.invitation.belongsTo(this.player, {
-			foreignKey: 'playerId',
-		});
-
-		// ---
-
-		await this.team.belongsToMany(this.player, {
-			through: this.invitation,
-			foreignKey: 'teamId',
-		});
-
-		await this.team.hasMany(this.invitation, {
-			foreignKey: 'teamId',
-		});
-
-		await this.invitation.belongsTo(this.team, {
-			foreignKey: 'teamId',
-		});
+		await rosterAssociation(this);
+		await invitationAssociation(this);
+		await videoGameHardwareAssociation(this);
 	}
 
 	async seed() {
@@ -99,6 +65,9 @@ export class db implements dbInterface {
 		await seedTeam(this);
 		await seedRoster(this);
 		await seedInvitation(this);
+		await seedVideoGame(this);
+		await seedHardware(this);
+		await seedVideoGameHardware(this);
 	}
 
 	async authenticate() {

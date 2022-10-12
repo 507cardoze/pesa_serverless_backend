@@ -69,20 +69,13 @@ const handleCreate = async (
 			message: 'Player already exists',
 		});
 
-	const createdUser = await DB.player.create(
-		{
-			uid: uid,
-			email: email,
-			displayName: displayName,
-			photoUrl: photoUrl,
-			phoneNumber: phoneNumber,
-		},
-		{
-			model: DB.team,
-			as: 'teams',
-			attributes: ['id', 'displayName', 'logoUrl'],
-		}
-	);
+	const createdUser = await DB.player.create({
+		uid: uid,
+		email: email,
+		displayName: displayName,
+		photoUrl: photoUrl,
+		phoneNumber: phoneNumber,
+	});
 
 	return formatJSONResponse({
 		message: 'Player created',
