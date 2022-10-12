@@ -39,8 +39,6 @@ const handleGet = async (uid: string, DB: db) => {
 		include: [
 			{
 				model: DB.team,
-				as: 'teams',
-				attributes: ['id', 'displayName', 'logoUrl'],
 			},
 		],
 	});

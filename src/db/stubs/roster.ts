@@ -9,7 +9,7 @@ export const ROSTER_STUBS: Array<Pick<Roster, 'id' | 'teamId' | 'playerId'>> = [
 	{
 		id: '37d67986-49eb-11ed-b878-0242ac120002',
 		teamId: 'd9a70ce0-49ea-11ed-b878-0242ac120002',
-		playerId: '2',
+		playerId: '1',
 	},
 	{
 		id: '3afe1984-49eb-11ed-b878-0242ac120002',

@@ -4,12 +4,14 @@ import { dbInterface } from '@db/interface/dbInterface';
 import { initPlayer, seedPlayer } from '@db/models/player';
 import { initTeam, seedTeam } from '@db/models/team';
 import { initRoster, seedRoster } from '@db/models/roster';
+import { initInvitation, seedInvitation } from '@db/models/invitation';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
 	player: any;
 	team: any;
 	roster: any;
+	invitation: any;
 
 	constructor() {
 		this.sequelize = new Sequelize(
@@ -27,24 +29,43 @@ export class db implements dbInterface {
 		initPlayer(this.sequelize);
 		initTeam(this.sequelize);
 		initRoster(this.sequelize);
+		initInvitation(this.sequelize);
 		this.player = this.sequelize.models.player;
 		this.team = this.sequelize.models.team;
 		this.roster = this.sequelize.models.roster;
+		this.invitation = this.sequelize.models.invitation;
 	}
 
 	async associate() {
-		this.player.belongsToMany(this.team, {
+		await this.player.belongsToMany(this.team, {
 			through: this.roster,
 			foreignKey: 'playerId',
 		});
-		this.team.belongsToMany(this.player, {
+		await this.team.belongsToMany(this.player, {
 			through: this.roster,
 			foreignKey: 'teamId',
 		});
-		this.roster.belongsTo(this.player, {
+		await this.roster.belongsTo(this.player, {
 			foreignKey: 'playerId',
 		});
-		this.roster.belongsTo(this.team, {
+		await this.roster.belongsTo(this.team, {
+			foreignKey: 'teamId',
+		});
+
+		await this.player.belongsToMany(this.team, {
+			through: this.invitation,
+			foreignKey: 'playerId',
+		});
+		await this.team.belongsToMany(this.player, {
+			through: this.invitation,
+			foreignKey: 'teamId',
+		});
+
+		await this.invitation.belongsTo(this.player, {
+			foreignKey: 'playerId',
+		});
+
+		await this.invitation.belongsTo(this.team, {
 			foreignKey: 'teamId',
 		});
 	}
@@ -53,6 +74,7 @@ export class db implements dbInterface {
 		await seedPlayer(this);
 		await seedTeam(this);
 		await seedRoster(this);
+		await seedInvitation(this);
 	}
 
 	async authenticate() {

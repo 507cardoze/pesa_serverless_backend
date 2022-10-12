@@ -1,3 +1,4 @@
+import { Invitation } from '@db/models/invitation';
 import { Player } from '@db/models/player';
 import { Roster } from '@db/models/roster';
 import { Team } from '@db/models/team';
@@ -16,4 +17,5 @@ export interface dbInterface {
 	player: Player;
 	team: Team;
 	roster: Roster;
+	invitation: Invitation;
 }
