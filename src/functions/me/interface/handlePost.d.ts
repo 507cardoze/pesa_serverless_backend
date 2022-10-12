@@ -1,4 +1,4 @@
-export interface HandlePostProps {
+export interface bodyPayloadType {
 	uid: string;
 	email: string;
 	displayName: string;

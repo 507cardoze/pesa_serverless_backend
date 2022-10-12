@@ -26,7 +26,7 @@ export const generateIamPolicy = (
 	policyDocument: PolicyDocument;
 } => {
 	const authResponse = {
-		principalId: data?.uid ?? '',
+		principalId: data?.sub ?? '',
 		user: data,
 		policyDocument: {
 			Version: '2012-10-17',

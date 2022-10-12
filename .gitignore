@@ -105,6 +105,7 @@ local.properties
 .esbuildcache.lock.tmp
 .esbuildcache.tmp
 .serverless
+**/.serverless
 
 #firebase
 

@@ -12,7 +12,7 @@ const authorizer: APIGatewayTokenAuthorizerHandler = async (
 
 		if (isOffline)
 			return generateIamPolicy('Allow', event.methodArn, {
-				uid: '123',
+				uid: '123456789',
 				email: 'example@gmail.com',
 				role: 'admin',
 				aud: '',
@@ -27,7 +27,7 @@ const authorizer: APIGatewayTokenAuthorizerHandler = async (
 				},
 				iat: 0,
 				iss: '',
-				sub: '',
+				sub: '1',
 			});
 
 		const bearerToken = getAuthToken(event.authorizationToken);
