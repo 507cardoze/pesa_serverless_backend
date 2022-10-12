@@ -7,7 +7,7 @@ import {
 } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import { bodyPayloadType } from './interface/handlePost';
+import { bodyPayloadType } from '@functions/me/interface/handlePost';
 
 const me: APIGatewayProxyHandler = async (event) => {
 	const DB = await getDBInstance();
@@ -35,52 +35,67 @@ const me: APIGatewayProxyHandler = async (event) => {
 };
 
 const handleGet = async (uid: string, DB: db) => {
-	const me = await DB.player.findByPk(uid, {
-		include: [
-			{
-				model: DB.team,
-			},
-		],
-	});
-
-	if (!me)
-		return internalServerError({
-			message: 'Player not found',
+	try {
+		const me = await DB.player.findByPk(uid, {
+			include: [
+				{
+					model: DB.team,
+					include: [
+						{
+							model: DB.invitation,
+						},
+					],
+				},
+			],
 		});
 
-	return formatJSONResponse({
-		message: 'Player found',
-		userInfo: me,
-	});
+		if (!me) throw new Error('Player not found');
+
+		return formatJSONResponse({
+			message: 'Player found',
+			userInfo: me,
+		});
+	} catch (error) {
+		return internalServerError({
+			message: error.message,
+		});
+	}
 };
 
 const handleCreate = async (
 	{ uid, email, displayName, photoUrl, phoneNumber }: bodyPayloadType,
 	DB: db
 ) => {
-	const verifyUser: Array<Player> = await DB.player.findOne({
-		where: {
-			uid: uid,
-		},
-	});
-
-	if (verifyUser)
-		return internalServerError({
-			message: 'Player already exists',
+	try {
+		const verifyUser: Array<Player> = await DB.player.findOne({
+			where: {
+				uid: uid,
+			},
 		});
 
-	const createdUser = await DB.player.create({
-		uid: uid,
-		email: email,
-		displayName: displayName,
-		photoUrl: photoUrl,
-		phoneNumber: phoneNumber,
-	});
+		if (verifyUser)
+			return formatJSONResponse({
+				message: 'Player already exists',
+				createdUser: verifyUser,
+			});
 
-	return formatJSONResponse({
-		message: 'Player created',
-		createdUser,
-	});
+		const createdUser = await DB.player.create({
+			uid: uid,
+			email: email,
+			displayName: displayName,
+			photoUrl: photoUrl,
+			phoneNumber: phoneNumber,
+		});
+
+		return formatJSONResponse({
+			message: 'Player created',
+			createdUser,
+		});
+	} catch (error) {
+		return internalServerError({
+			message: error.message,
+		});
+	}
 };
 
 export const main = middyfy(me);

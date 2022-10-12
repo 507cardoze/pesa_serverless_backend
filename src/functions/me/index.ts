@@ -1,5 +1,5 @@
 import { handlerPath } from '@libs/handler-resolver';
-import POSTschema from './POST-schema';
+import postSchema from '@functions/me/schema/post-schema';
 
 export default {
 	handler: `${handlerPath(__dirname)}/handler.main`,
@@ -65,7 +65,7 @@ export default {
 				},
 				request: {
 					schemas: {
-						'application/json': POSTschema,
+						'application/json': postSchema,
 					},
 				},
 			},
