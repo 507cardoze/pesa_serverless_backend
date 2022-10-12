@@ -4,21 +4,26 @@
 	"description": "PESA REST API",
 	"main": "serverless.ts",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"dev": "sls offline",
+		"deploy": "sls deploy"
 	},
 	"engines": {
 		"node": ">=14.15.0"
 	},
 	"dependencies": {
 		"@middy/core": "^2.5.3",
+		"@middy/http-error-handler": "^3.6.0",
 		"@middy/http-json-body-parser": "^2.5.3",
-		"ajv": "^8.11.0",
-		"firebase-admin": "^11.1.0"
+		"firebase-admin": "^11.1.0",
+		"pg": "^8.8.0",
+		"pg-hstore": "^2.3.4",
+		"sequelize": "^6.25.0"
 	},
 	"devDependencies": {
 		"@serverless/typescript": "^3.0.0",
 		"@types/aws-lambda": "^8.10.71",
 		"@types/node": "^14.14.25",
+		"@types/pg": "^8.6.5",
 		"esbuild": "^0.14.11",
 		"json-schema-to-ts": "^1.5.0",
 		"serverless": "^3.0.0",

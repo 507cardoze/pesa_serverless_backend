@@ -70,6 +70,7 @@ typings/
 
 #mac
 .DS_Store
+**/.DS_Store
 
 #linux
 *.swp
@@ -104,6 +105,7 @@ local.properties
 .esbuildcache.lock.tmp
 .esbuildcache.tmp
 .serverless
+**/.serverless
 
 #firebase
 
@@ -112,3 +114,6 @@ panamaesportacademy-firebase-adminsdk-yz4aw-2167241f02.json
 #env
 .env
 .env.local
+
+.build
+**/.build
