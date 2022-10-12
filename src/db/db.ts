@@ -41,28 +41,52 @@ export class db implements dbInterface {
 			through: this.roster,
 			foreignKey: 'playerId',
 		});
+
+		await this.player.hasMany(this.roster, {
+			foreignKey: 'playerId',
+		});
+
+		await this.roster.belongsTo(this.player, {
+			foreignKey: 'playerId',
+		});
+		// ------------
 		await this.team.belongsToMany(this.player, {
 			through: this.roster,
 			foreignKey: 'teamId',
 		});
-		await this.roster.belongsTo(this.player, {
-			foreignKey: 'playerId',
+
+		await this.team.hasMany(this.roster, {
+			foreignKey: 'teamId',
 		});
+
 		await this.roster.belongsTo(this.team, {
 			foreignKey: 'teamId',
 		});
+
+		//-- //
 
 		await this.player.belongsToMany(this.team, {
 			through: this.invitation,
 			foreignKey: 'playerId',
 		});
+
+		await this.player.hasMany(this.invitation, {
+			foreignKey: 'playerId',
+		});
+
+		await this.invitation.belongsTo(this.player, {
+			foreignKey: 'playerId',
+		});
+
+		// ---
+
 		await this.team.belongsToMany(this.player, {
 			through: this.invitation,
 			foreignKey: 'teamId',
 		});
 
-		await this.invitation.belongsTo(this.player, {
-			foreignKey: 'playerId',
+		await this.team.hasMany(this.invitation, {
+			foreignKey: 'teamId',
 		});
 
 		await this.invitation.belongsTo(this.team, {
