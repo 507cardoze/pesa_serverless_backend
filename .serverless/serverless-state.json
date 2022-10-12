@@ -194,7 +194,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/pesa-serverless-backend/dev/1665561007355-2022-10-12T07:50:07.355Z/me.zip"
+                "S3Key": "serverless/pesa-serverless-backend/dev/1665599602574-2022-10-12T18:33:22.574Z/me.zip"
               },
               "Handler": "src/functions/me/handler.main",
               "Runtime": "nodejs14.x",
@@ -232,7 +232,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/pesa-serverless-backend/dev/1665561007355-2022-10-12T07:50:07.355Z/authorizer.zip"
+                "S3Key": "serverless/pesa-serverless-backend/dev/1665599602574-2022-10-12T18:33:22.574Z/authorizer.zip"
               },
               "Handler": "src/functions/authorizer/handler.main",
               "Runtime": "nodejs14.x",
@@ -263,14 +263,14 @@
               "AuthorizerLogGroup"
             ]
           },
-          "MeLambdaVersionek68rCAu9QCs8SgdhAGOnVzt0iAWxLURvEH5M0cSnU": {
+          "MeLambdaVersion8nQJ65ZpLiAYZRljA7o8IB9WS4Cu1RRdUdkmvl14": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "MeLambdaFunction"
               },
-              "CodeSha256": "ht/YhHC2/Iv9UvCtzDvDmFASNQmy5geXKff+uuZwXyE="
+              "CodeSha256": "cGOkA/Os4AO6th+aGaG10XcJtKU/d8CYRUMjrQj8l5U="
             }
           },
           "AuthorizerLambdaVersionVP0gyLrhQR7e6boxOUOpN5oR6i5g4edF9j5IRXu8A": {
@@ -642,7 +642,7 @@
               "Type": "TOKEN"
             }
           },
-          "ApiGatewayDeployment1665561005736": {
+          "ApiGatewayDeployment1665599600843": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -745,7 +745,7 @@
           "MeLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "MeLambdaVersionek68rCAu9QCs8SgdhAGOnVzt0iAWxLURvEH5M0cSnU"
+              "Ref": "MeLambdaVersion8nQJ65ZpLiAYZRljA7o8IB9WS4Cu1RRdUdkmvl14"
             },
             "Export": {
               "Name": "sls-pesa-serverless-backend-dev-MeLambdaFunctionQualifiedArn"
@@ -1011,7 +1011,7 @@
         "memory": 1024,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "MeLambdaVersionek68rCAu9QCs8SgdhAGOnVzt0iAWxLURvEH5M0cSnU"
+        "versionLogicalId": "MeLambdaVersion8nQJ65ZpLiAYZRljA7o8IB9WS4Cu1RRdUdkmvl14"
       },
       "authorizer": {
         "handler": "src/functions/authorizer/handler.main",
@@ -1055,7 +1055,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/pesa-serverless-backend/dev/1665561007355-2022-10-12T07:50:07.355Z",
+    "artifactDirectoryName": "serverless/pesa-serverless-backend/dev/1665599602574-2022-10-12T18:33:22.574Z",
     "artifact": ""
   }
 }
