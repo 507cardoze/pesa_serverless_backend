@@ -3,7 +3,7 @@ import POSTschema from './POST-schema';
 
 export default {
 	handler: `${handlerPath(__dirname)}/handler.main`,
-	timeout: 900,
+	timeout: 30,
 	events: [
 		{
 			http: {

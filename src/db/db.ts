@@ -3,11 +3,13 @@ import { Sequelize } from 'sequelize';
 import { dbInterface } from '@db/interface/dbInterface';
 import { initPlayer, seedPlayer } from '@db/models/player';
 import { initTeam, seedTeam } from '@db/models/team';
+import { initRoster, seedRoster } from '@db/models/roster';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
 	player: any;
 	team: any;
+	roster: any;
 
 	constructor() {
 		this.sequelize = new Sequelize(
@@ -24,30 +26,39 @@ export class db implements dbInterface {
 
 		initPlayer(this.sequelize);
 		initTeam(this.sequelize);
+		initRoster(this.sequelize);
 		this.player = this.sequelize.models.player;
 		this.team = this.sequelize.models.team;
+		this.roster = this.sequelize.models.roster;
 	}
 
 	async associate() {
-		// // Book has many authors (1 to n)
-		// this.book.belongsToMany(this.author, { through: 'book_author' });
-		// // Book has 1 publisher (1 to 1)
-		// this.book.belongsTo(this.publisher, { foreignKey: 'publisher_id' });
-		// // Author has many books (1 to n)
-		// this.author.belongsToMany(this.book, { through: 'book_author' });
-		// // Publisher has many books (1 to n)
-		// this.publisher.hasMany(this.book, { foreignKey: 'publisher_id' });
+		this.player.belongsToMany(this.team, {
+			through: this.roster,
+			foreignKey: 'playerId',
+		});
+		this.team.belongsToMany(this.player, {
+			through: this.roster,
+			foreignKey: 'teamId',
+		});
+		this.roster.belongsTo(this.player, {
+			foreignKey: 'playerId',
+		});
+		this.roster.belongsTo(this.team, {
+			foreignKey: 'teamId',
+		});
 	}
 
 	async seed() {
 		await seedPlayer(this);
 		await seedTeam(this);
+		await seedRoster(this);
 	}
 
 	async authenticate() {
 		try {
 			//Create associations
-			//await this.associate();
+			await this.associate();
 
 			//Sync DB
 			await this.sequelize

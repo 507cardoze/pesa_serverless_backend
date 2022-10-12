@@ -35,10 +35,14 @@ const me: APIGatewayProxyHandler = async (event) => {
 };
 
 const handleGet = async (uid: string, DB: db) => {
-	const me: Array<Player> = await DB.player.findOne({
-		where: {
-			uid: uid,
-		},
+	const me = await DB.player.findByPk(uid, {
+		include: [
+			{
+				model: DB.team,
+				as: 'teams',
+				attributes: ['id', 'displayName', 'logoUrl'],
+			},
+		],
 	});
 
 	if (!me)
@@ -67,13 +71,20 @@ const handleCreate = async (
 			message: 'Player already exists',
 		});
 
-	const createdUser = await DB.player.create({
-		uid: uid,
-		email: email,
-		displayName: displayName,
-		photoUrl: photoUrl,
-		phoneNumber: phoneNumber,
-	});
+	const createdUser = await DB.player.create(
+		{
+			uid: uid,
+			email: email,
+			displayName: displayName,
+			photoUrl: photoUrl,
+			phoneNumber: phoneNumber,
+		},
+		{
+			model: DB.team,
+			as: 'teams',
+			attributes: ['id', 'displayName', 'logoUrl'],
+		}
+	);
 
 	return formatJSONResponse({
 		message: 'Player created',

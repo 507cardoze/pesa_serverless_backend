@@ -42,7 +42,8 @@ export async function initTeam(sequelize: Sequelize) {
 export async function seedTeam(DB: db) {
 	const teams = await DB.team.findAndCountAll();
 	if (!teams.count) {
-		const data: Array<Pick<Team, 'displayName' | 'logoUrl'>> = TEAM_STUBS;
+		const data: Array<Pick<Team, 'id' | 'displayName' | 'logoUrl'>> =
+			TEAM_STUBS;
 		return await DB.team.bulkCreate(data, { returning: true });
 	}
 }

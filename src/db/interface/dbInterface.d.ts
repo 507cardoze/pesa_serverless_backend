@@ -1,4 +1,5 @@
 import { Player } from '@db/models/player';
+import { Roster } from '@db/models/roster';
 import { Team } from '@db/models/team';
 import { Sequelize } from 'sequelize';
 
@@ -14,4 +15,5 @@ export interface dbInterface {
 	// Models for this project
 	player: Player;
 	team: Team;
+	roster: Roster;
 }
