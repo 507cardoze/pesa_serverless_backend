@@ -13,7 +13,8 @@ import {
 } from '@db/models/video-game-hardware';
 import { rosterAssociation } from '@db/associate/roster';
 import { invitationAssociation } from '@db/associate/invitation';
-import { videoGameHardwareAssociation } from '@db/associate/videogame-hardware';
+import { videoGameHardwareAssociation } from '@db/associate/video-game-hardware';
+import { initGameMode, seedGameMode } from '@db/models/game-mode';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
@@ -24,6 +25,7 @@ export class db implements dbInterface {
 	videoGame: any;
 	hardware: any;
 	videoGameHardware: any;
+	gameMode: any;
 
 	constructor() {
 		this.sequelize = new Sequelize(
@@ -45,6 +47,7 @@ export class db implements dbInterface {
 		initVideoGame(this.sequelize);
 		initHardware(this.sequelize);
 		initVideoGameHardware(this.sequelize);
+		initGameMode(this.sequelize);
 		this.player = this.sequelize.models.player;
 		this.team = this.sequelize.models.team;
 		this.roster = this.sequelize.models.roster;
@@ -52,6 +55,7 @@ export class db implements dbInterface {
 		this.videoGame = this.sequelize.models.videoGame;
 		this.hardware = this.sequelize.models.hardware;
 		this.videoGameHardware = this.sequelize.models.videoGameHardware;
+		this.gameMode = this.sequelize.models.gameMode;
 	}
 
 	async associate() {
@@ -68,6 +72,7 @@ export class db implements dbInterface {
 		await seedVideoGame(this);
 		await seedHardware(this);
 		await seedVideoGameHardware(this);
+		await seedGameMode(this);
 	}
 
 	async authenticate() {

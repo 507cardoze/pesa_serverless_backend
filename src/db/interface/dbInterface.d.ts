@@ -1,3 +1,4 @@
+import { GameMode } from '@db/models/game-mode';
 import { Hardware } from '@db/models/hardware';
 import { Invitation } from '@db/models/invitation';
 import { Player } from '@db/models/player';
@@ -24,4 +25,5 @@ export interface dbInterface {
 	videoGame: VideoGame;
 	hardware: Hardware;
 	videoGameHardware: VideoGameHardware;
+	gameMode: GameMode;
 }
