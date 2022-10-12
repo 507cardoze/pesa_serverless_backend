@@ -27,6 +27,26 @@ export default {
 		},
 		{
 			http: {
+				method: 'GET',
+				path: 'me/{id}',
+				cors: {
+					origin: '*',
+					headers: [
+						'Content-Type',
+						'X-Amz-Date',
+						'Authorization',
+						'X-Api-Key',
+						'X-Amz-Security-Token',
+						'X-Amz-User-Agent',
+					],
+				},
+				authorizer: {
+					name: 'authorizer',
+				},
+			},
+		},
+		{
+			http: {
 				method: 'POST',
 				path: 'me',
 				cors: {

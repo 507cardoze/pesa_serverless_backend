@@ -1,7 +1,6 @@
+import { Player } from '@db/models/player';
+import { Team } from '@db/models/team';
 import { Sequelize } from 'sequelize';
-// import { Author } from "../db/models/author";
-// import { Book } from "../db/models/book";
-// import { Publisher } from "../db/models/publisher";
 
 export interface dbInterface {
 	// Sequelize ORM object
@@ -13,7 +12,6 @@ export interface dbInterface {
 	// Use this function to prefill data into tables when empty
 	seed: Function;
 	// Models for this project
-	//   book: Book;
-	//   author: Author;
-	//   publisher: Publisher;
+	player: Player;
+	team: Team;
 }

@@ -13,7 +13,7 @@ export class Player extends Model {
 
 export async function initPlayer(sequelize: Sequelize) {
 	sequelize.define(
-		'Player',
+		'player',
 		{
 			uid: {
 				type: new DataTypes.STRING(256),

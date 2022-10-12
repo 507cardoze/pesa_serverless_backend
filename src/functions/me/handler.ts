@@ -14,6 +14,9 @@ const me: APIGatewayProxyHandler = async (event) => {
 	try {
 		switch (event.httpMethod) {
 			case 'GET':
+				if (event.pathParameters && event.pathParameters.id)
+					return handleGet(event.pathParameters.id, DB);
+
 				if (!event.requestContext.authorizer)
 					throw new Error('principalId is not present');
 				const uid: string = event.requestContext.authorizer.principalId;
@@ -40,11 +43,11 @@ const handleGet = async (uid: string, DB: db) => {
 
 	if (!me)
 		return internalServerError({
-			message: 'User not found',
+			message: 'Player not found',
 		});
 
 	return formatJSONResponse({
-		message: 'GET method not implemented',
+		message: 'Player found',
 		userInfo: me,
 	});
 };
@@ -61,7 +64,7 @@ const handleCreate = async (
 
 	if (verifyUser)
 		return internalServerError({
-			message: 'User already exists',
+			message: 'Player already exists',
 		});
 
 	const createdUser = await DB.player.create({
@@ -73,7 +76,7 @@ const handleCreate = async (
 	});
 
 	return formatJSONResponse({
-		message: 'POST method not implemented',
+		message: 'Player created',
 		createdUser,
 	});
 };

@@ -2,10 +2,12 @@ import * as pg from 'pg';
 import { Sequelize } from 'sequelize';
 import { dbInterface } from '@db/interface/dbInterface';
 import { initPlayer, seedPlayer } from '@db/models/player';
+import { initTeam, seedTeam } from '@db/models/team';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
 	player: any;
+	team: any;
 
 	constructor() {
 		this.sequelize = new Sequelize(
@@ -21,7 +23,9 @@ export class db implements dbInterface {
 		);
 
 		initPlayer(this.sequelize);
-		this.player = this.sequelize.models.Player;
+		initTeam(this.sequelize);
+		this.player = this.sequelize.models.player;
+		this.team = this.sequelize.models.team;
 	}
 
 	async associate() {
@@ -37,6 +41,7 @@ export class db implements dbInterface {
 
 	async seed() {
 		await seedPlayer(this);
+		await seedTeam(this);
 	}
 
 	async authenticate() {
@@ -46,7 +51,7 @@ export class db implements dbInterface {
 
 			//Sync DB
 			await this.sequelize
-				.sync({ force: false })
+				.sync({ alter: true })
 				.then(() => console.log('DB Connection established successfully.'))
 				.catch((err) =>
 					console.error(`DB Sequelize Connection Failed: ${err}`)
