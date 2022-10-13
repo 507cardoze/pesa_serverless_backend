@@ -130,7 +130,7 @@ export class db implements dbInterface {
 
 			//Sync DB
 			try {
-				await this.sequelize.sync({ force: true });
+				await this.sequelize.sync();
 				console.log('Database & tables created!');
 			} catch (error) {
 				console.error(`DB Sequelize Connection Failed: ${error}`);

@@ -16,7 +16,7 @@ const me: APIGatewayProxyHandler = async (event) => {
 	}
 
 	if (!event.requestContext.authorizer)
-		throw new Error('authorizer is not present');
+		throw new Error('Authorizer is not present');
 
 	try {
 		switch (event.httpMethod) {
@@ -38,30 +38,42 @@ const me: APIGatewayProxyHandler = async (event) => {
 const handleGet = async (uid: string, DB: db) => {
 	try {
 		const me = await DB.player.findByPk(uid, {
+			attributes: [
+				'uid',
+				'displayName',
+				'email',
+				'phoneNumber',
+				'photoURL',
+				'isAdmin',
+			],
 			include: [
 				{
 					model: DB.team,
+					attributes: ['id', 'displayName', 'logoUrl'],
 					include: [
 						{
 							model: DB.role,
+							attributes: ['id', 'name'],
 						},
 					],
 				},
 				{
 					model: DB.invitation,
+					attributes: ['id'],
 					include: [
 						{
 							model: DB.team,
+							attributes: ['id', 'displayName', 'logoUrl'],
 						},
 					],
 				},
 			],
 		});
 
-		if (!me) throw new Error('Player not found');
+		if (!me) throw new Error('User Session info not found.');
 
 		return formatJSONResponse({
-			message: 'Player found',
+			message: 'User Session info found.',
 			userInfo: me,
 		});
 	} catch (error) {
