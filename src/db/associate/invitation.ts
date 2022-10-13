@@ -1,6 +1,7 @@
 import { db } from '@db/db';
 
 export const invitationAssociation = async (DB: db) => {
+
 	await DB.player.hasMany(DB.invitation, {
 		foreignKey: 'playerId',
 	});

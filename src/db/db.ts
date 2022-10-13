@@ -1,7 +1,7 @@
 import * as pg from 'pg';
-import { Sequelize } from 'sequelize';
+import { Model, ModelCtor, Sequelize } from 'sequelize';
 import { dbInterface } from '@db/interface/dbInterface';
-import { initPlayer, seedPlayer } from '@db/models/player';
+import { initPlayer, Player, seedPlayer } from '@db/models/player';
 import { initTeam, seedTeam } from '@db/models/team';
 import { initRoster, seedRoster } from '@db/models/roster';
 import { initInvitation, seedInvitation } from '@db/models/invitation';
@@ -17,6 +17,12 @@ import { videoGameHardwareAssociation } from '@db/associate/video-game-hardware'
 import { initGameMode, seedGameMode } from '@db/models/game-mode';
 import { initEvent, seedEvent } from '@db/models/event';
 import { eventAssociation } from './associate/event';
+import { initGame, seedGame } from '@db/models/game';
+import { initMetric, seedMetric } from '@db/models/metric';
+import { initMetricType, seedMetricType } from '@db/models/metric-type';
+import { initMetricKey, seedMetricKey } from '@db/models/metric-key';
+import { gameAssociation } from '@db/associate/game';
+import { metricAssociation } from '@db/associate/metric';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
@@ -29,6 +35,10 @@ export class db implements dbInterface {
 	videoGameHardware: any;
 	gameMode: any;
 	event: any;
+	game: any;
+	metric: any;
+	metricType: any;
+	metricKey: any;
 
 	constructor() {
 		this.sequelize = new Sequelize(
@@ -45,7 +55,7 @@ export class db implements dbInterface {
 					min: 0,
 					acquire: 3000,
 					idle: 0,
-					evict: 3000,
+					evict: 900,
 				},
 			}
 		);
@@ -59,6 +69,10 @@ export class db implements dbInterface {
 		initVideoGameHardware(this.sequelize);
 		initGameMode(this.sequelize);
 		initEvent(this.sequelize);
+		initGame(this.sequelize);
+		initMetric(this.sequelize);
+		initMetricType(this.sequelize);
+		initMetricKey(this.sequelize);
 		this.player = this.sequelize.models.player;
 		this.team = this.sequelize.models.team;
 		this.roster = this.sequelize.models.roster;
@@ -68,6 +82,10 @@ export class db implements dbInterface {
 		this.videoGameHardware = this.sequelize.models.videoGameHardware;
 		this.gameMode = this.sequelize.models.gameMode;
 		this.event = this.sequelize.models.event;
+		this.game = this.sequelize.models.game;
+		this.metricType = this.sequelize.models.metricType;
+		this.metricKey = this.sequelize.models.metricKey;
+		this.metric = this.sequelize.models.metric;
 	}
 
 	async associate() {
@@ -75,6 +93,8 @@ export class db implements dbInterface {
 		await invitationAssociation(this);
 		await videoGameHardwareAssociation(this);
 		await eventAssociation(this);
+		await gameAssociation(this);
+		await metricAssociation(this);
 	}
 
 	async seed() {
@@ -87,6 +107,10 @@ export class db implements dbInterface {
 		await seedVideoGameHardware(this);
 		await seedGameMode(this);
 		await seedEvent(this);
+		await seedGame(this);
+		await seedMetricType(this);
+		await seedMetricKey(this);
+		await seedMetric(this);
 	}
 
 	async authenticate() {
@@ -96,7 +120,7 @@ export class db implements dbInterface {
 
 			//Sync DB
 			try {
-				await this.sequelize.sync();
+				await this.sequelize.sync({ force: false });
 				console.log('Database & tables created!');
 			} catch (error) {
 				console.error(`DB Sequelize Connection Failed: ${error}`);

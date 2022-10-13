@@ -5,12 +5,12 @@ export const GAMEMODE_STUBS: Array<
 > = [
 	{
 		id: 'f15dd444-4a68-11ed-b878-0242ac120002',
-		name: 'Classic',
-		description: 'Classic game mode',
+		name: 'Agencia Libre',
+		description: 'Jugador vs Jugador',
 	},
 	{
 		id: 'f733c23e-4a68-11ed-b878-0242ac120002',
-		name: 'Quick',
-		description: 'Quick game mode',
+		name: 'Por equipos',
+		description: 'Equipo vs Equipo',
 	},
 ];

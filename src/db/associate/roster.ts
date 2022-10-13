@@ -6,11 +6,8 @@ export const rosterAssociation = async (DB: db) => {
 		foreignKey: 'playerId',
 	});
 
-	await DB.player.hasMany(DB.roster, {
-		foreignKey: 'playerId',
-	});
-
-	await DB.roster.belongsTo(DB.player, {
-		foreignKey: 'playerId',
+	await DB.team.belongsToMany(DB.player, {
+		through: DB.roster,
+		foreignKey: 'teamId',
 	});
 };

@@ -1,14 +1,17 @@
 import { Event } from '@db/models/event';
+import { Game } from '@db/models/game';
 import { GameMode } from '@db/models/game-mode';
 import { Hardware } from '@db/models/hardware';
 import { Invitation } from '@db/models/invitation';
+import { Metric } from '@db/models/metric';
+import { MetricKey } from '@db/models/metric-key';
+import { MetricType } from '@db/models/metric-type';
 import { Player } from '@db/models/player';
 import { Roster } from '@db/models/roster';
 import { Team } from '@db/models/team';
 import { VideoGame } from '@db/models/video-game';
 import { VideoGameHardware } from '@db/models/video-game-hardware';
 import { Sequelize } from 'sequelize';
-import { ConnectionManager } from 'sequelize/types/dialects/abstract/connection-manager';
 
 export interface dbInterface {
 	// Sequelize ORM object
@@ -32,4 +35,8 @@ export interface dbInterface {
 	videoGameHardware: VideoGameHardware;
 	gameMode: GameMode;
 	event: Event;
+	game: Game;
+	metric: Metric;
+	metricType: MetricType;
+	metricKey: MetricKey;
 }
