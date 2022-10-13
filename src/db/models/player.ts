@@ -13,7 +13,7 @@ export class Player extends Model {
 
 export async function initPlayer(sequelize: Sequelize) {
 	sequelize.define(
-		'Player',
+		'player',
 		{
 			uid: {
 				type: new DataTypes.STRING(256),
@@ -58,12 +58,7 @@ export async function initPlayer(sequelize: Sequelize) {
 export async function seedPlayer(DB: db) {
 	const players = await DB.player.findAndCountAll();
 	if (!players.count) {
-		const data: Array<
-			Pick<
-				Player,
-				'uid' | 'email' | 'displayName' | 'photoURL' | 'phoneNumber' | 'isAdmin'
-			>
-		> = PLAYER_STUB;
+		const data = PLAYER_STUB;
 		return await DB.player.bulkCreate(data, { returning: true });
 	}
 }
