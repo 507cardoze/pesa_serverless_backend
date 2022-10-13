@@ -1,14 +1,16 @@
 {
   "extends": "./tsconfig.paths.json",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "lib": ["ESNext"],
     "moduleResolution": "node",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "removeComments": true,
     "sourceMap": true,
     "target": "ES2020",
-    "outDir": "lib"
+    "outDir": "lib",
+    "strictNullChecks": true
   },
   "include": ["src/**/*.ts", "serverless.ts"],
   "exclude": [

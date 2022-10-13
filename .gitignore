@@ -67,3 +67,53 @@ typings/
 
 #vscode
 .vscode
+
+#mac
+.DS_Store
+**/.DS_Store
+
+#linux
+*.swp
+
+#windows
+Thumbs.db
+
+#android
+local.properties
+
+#ios
+*.pbxuser
+
+#android studio
+.idea
+
+#android studio
+*.iml
+
+#android studio
+*.ipr
+
+#temporals
+*.tsbuildinfo
+.esbuild
+.esbuildcache
+.esbuildcache.json
+.esbuildcache.json.lock
+.esbuildcache.json.lock.tmp
+.esbuildcache.json.tmp
+.esbuildcache.lock
+.esbuildcache.lock.tmp
+.esbuildcache.tmp
+.serverless
+**/.serverless
+
+#firebase
+
+panamaesportacademy-firebase-adminsdk-yz4aw-2167241f02.json
+
+#env
+.env
+.env.local
+
+.build
+**/.build

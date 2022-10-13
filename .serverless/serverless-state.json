@@ -13,7 +13,14 @@
       },
       "environment": {
         "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-        "NODE_OPTIONS": "--enable-source-maps --stack-trace-limit=1000"
+        "FIREBASE_PROJECT_ID": "panamaesportacademy",
+        "FIREBASE_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDar4+tkYi33Hu2\\nWdUCxiJ68kxGEHAL5hvc0sZgVeA2DJW05UNx9CMcH9CmPDQDJjbINRCrWvlregQm\\nzPn8IgURHFX32+HcgUXmtOd6FP5r5qlFHcGl6/QTqnXFIeFcIsKPL+8nBaE66d39\\nPwdaKIfGGXhkCmtmiDO4j6+wNXrvVuagrdil1CaBrrwAXYLRjB2sWup+e4HOMVD2\\nlj+lyZCVqFvkqcyMQdHAHP49zEuKkqlt4Mo2nUxWogzQEvapXVI7oMWebw1hyuAA\\nJu4XkoBDqCOAE0OySuQYTCPzlwCJgBecVVaUOlUVLVQpaexcKp7bZzeXAezevkQW\\n2Kx6GDhPAgMBAAECggEAIOZoDkEmjsq7+KDRMXv6NKxT7001Hi/TTJ3lPG8PA/Km\\nvzKoD/Jz1HJbjfbhYwE9HVJmcfEw3wuEqQsOJ5w9Tj1eGE5bT4pJ/ZMv0/0T6HXT\\noiiqOTp4sPtkgRuUxQDHFosBRsn2X1+khx9pYsCq6ecWZq6ZSTFVM/9h+3eVntYZ\\nIrJYIPPJBzci/xpuIXG3HF2z+NwJWq7JeWsGRbYvesGBJ6E5Vu1gLXjAU8GKJV/y\\n4xNc13W/vsklufSrlseSHzIZprIZ6Onn7EKIXTrP3YAdeds8XOO/hnbVjxYbQ9tj\\nnf018IGaDVhRhqPPjjr26TUxWqT+MYE4mrrJNTYRmQKBgQD5QSTjUyY31sFQqVrN\\npPpEu1wgNETvYz4XSIyc5VOVFn/kbuIhw6LOudpYvoIgMuKeym0wEBQ3Ge284Vji\\nQy6b91SOhTX9D6emKStWQf7EALnU5//Hjqbll8DvEgeNA/zA6VyOJb7N5Q2EFlWV\\nWDUEP02G2AsESugfRNOH8hHQXQKBgQDgmqJ+lIkzrlMQdVfbKclwpimClnG/coCH\\nKSx2ReWtGDFFWGm/A7/YaYhZRR2d85NEKFbhCbDoLwhWQaoAk5/m4M4eckLamaXz\\nvYaf7sRAbeTN/keDBnHzNfTEt5N1PHMbdu3qFIB/rVCYM0ZyMMBxS8XGu7xjl6ay\\nCIAg/dpQmwKBgDkpvYH88cjgkZkkHdUHvvXAWlJwalbUVcsVMlpRJagNbus+mtHP\\ngikS6oZruoAT63ErT3s0VM6GPcWRkMbjTW8re9LrrgQJcRNkYbH4lKry16uCQWDM\\n0G3bLb4mTmECxxae7kETWvzxSPZAAQStJAuDUQ5Zwb0MSMvTBwgodflpAoGBAIyn\\nKdVdDWKo62mmImOkEnsSA3K85fS/Ls/1r9tNQFyahthnWql9HpnW1MUarEZq77FC\\nFc4NdJSiR3VE38JGsF80LsAQS997UtqFuJXVP18dsqhxcbUSxy9IfcTnNVe4iFkN\\nrEXnmuTZ01vM2HPQJeONUQh4Lqyrnn9lJWADuMC7AoGBAIlB2dp0aFwXWXVRTdTG\\nOPHsx4tHC/z7zQEBD9smgfRhgsObh0fywU451e5DP4vAqgGb63sDCQ1Q3Vk6bXCU\\nZjw6meW8TzHeMmpoHxwErfmmNZ4oz92sxQO9r156FThleT3dWW3NUWhSRZiS+mIT\\nQ5ECeKvy0baruJkMJuTOjVX4\\n-----END PRIVATE KEY-----\\n",
+        "FIREBASE_CLIENT_EMAIL": "firebase-adminsdk-yz4aw@panamaesportacademy.iam.gserviceaccount.com",
+        "PG_DB_HOST": "serverless-pesa.cr9bout85w1m.us-east-1.rds.amazonaws.com",
+        "PG_DB_PORT": "5432",
+        "PG_DB_NAME": "pesa_db",
+        "PG_DB_USER": "stpancar",
+        "PG_DB_PASSWORD": "m1ZCMLW91Cvuv4lkejL6"
       },
       "stage": "dev",
       "region": "us-east-1",
@@ -91,10 +98,16 @@
               }
             }
           },
-          "HelloLogGroup": {
+          "MeLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/pesa-serverless-backend-dev-hello"
+              "LogGroupName": "/aws/lambda/pesa-serverless-backend-dev-me"
+            }
+          },
+          "AuthorizerLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/pesa-serverless-backend-dev-authorizer"
             }
           },
           "IamRoleLambdaExecution": {
@@ -174,24 +187,31 @@
               }
             }
           },
-          "HelloLambdaFunction": {
+          "MeLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
               "Code": {
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/pesa-serverless-backend/dev/1663900593189-2022-09-23T02:36:33.189Z/hello.zip"
+                "S3Key": "serverless/pesa-serverless-backend/dev/1665599602574-2022-10-12T18:33:22.574Z/me.zip"
               },
-              "Handler": "src/functions/hello/handler.main",
+              "Handler": "src/functions/me/handler.main",
               "Runtime": "nodejs14.x",
-              "FunctionName": "pesa-serverless-backend-dev-hello",
+              "FunctionName": "pesa-serverless-backend-dev-me",
               "MemorySize": 1024,
-              "Timeout": 6,
+              "Timeout": 30,
               "Environment": {
                 "Variables": {
                   "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-                  "NODE_OPTIONS": "--enable-source-maps --stack-trace-limit=1000"
+                  "FIREBASE_PROJECT_ID": "panamaesportacademy",
+                  "FIREBASE_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDar4+tkYi33Hu2\\nWdUCxiJ68kxGEHAL5hvc0sZgVeA2DJW05UNx9CMcH9CmPDQDJjbINRCrWvlregQm\\nzPn8IgURHFX32+HcgUXmtOd6FP5r5qlFHcGl6/QTqnXFIeFcIsKPL+8nBaE66d39\\nPwdaKIfGGXhkCmtmiDO4j6+wNXrvVuagrdil1CaBrrwAXYLRjB2sWup+e4HOMVD2\\nlj+lyZCVqFvkqcyMQdHAHP49zEuKkqlt4Mo2nUxWogzQEvapXVI7oMWebw1hyuAA\\nJu4XkoBDqCOAE0OySuQYTCPzlwCJgBecVVaUOlUVLVQpaexcKp7bZzeXAezevkQW\\n2Kx6GDhPAgMBAAECggEAIOZoDkEmjsq7+KDRMXv6NKxT7001Hi/TTJ3lPG8PA/Km\\nvzKoD/Jz1HJbjfbhYwE9HVJmcfEw3wuEqQsOJ5w9Tj1eGE5bT4pJ/ZMv0/0T6HXT\\noiiqOTp4sPtkgRuUxQDHFosBRsn2X1+khx9pYsCq6ecWZq6ZSTFVM/9h+3eVntYZ\\nIrJYIPPJBzci/xpuIXG3HF2z+NwJWq7JeWsGRbYvesGBJ6E5Vu1gLXjAU8GKJV/y\\n4xNc13W/vsklufSrlseSHzIZprIZ6Onn7EKIXTrP3YAdeds8XOO/hnbVjxYbQ9tj\\nnf018IGaDVhRhqPPjjr26TUxWqT+MYE4mrrJNTYRmQKBgQD5QSTjUyY31sFQqVrN\\npPpEu1wgNETvYz4XSIyc5VOVFn/kbuIhw6LOudpYvoIgMuKeym0wEBQ3Ge284Vji\\nQy6b91SOhTX9D6emKStWQf7EALnU5//Hjqbll8DvEgeNA/zA6VyOJb7N5Q2EFlWV\\nWDUEP02G2AsESugfRNOH8hHQXQKBgQDgmqJ+lIkzrlMQdVfbKclwpimClnG/coCH\\nKSx2ReWtGDFFWGm/A7/YaYhZRR2d85NEKFbhCbDoLwhWQaoAk5/m4M4eckLamaXz\\nvYaf7sRAbeTN/keDBnHzNfTEt5N1PHMbdu3qFIB/rVCYM0ZyMMBxS8XGu7xjl6ay\\nCIAg/dpQmwKBgDkpvYH88cjgkZkkHdUHvvXAWlJwalbUVcsVMlpRJagNbus+mtHP\\ngikS6oZruoAT63ErT3s0VM6GPcWRkMbjTW8re9LrrgQJcRNkYbH4lKry16uCQWDM\\n0G3bLb4mTmECxxae7kETWvzxSPZAAQStJAuDUQ5Zwb0MSMvTBwgodflpAoGBAIyn\\nKdVdDWKo62mmImOkEnsSA3K85fS/Ls/1r9tNQFyahthnWql9HpnW1MUarEZq77FC\\nFc4NdJSiR3VE38JGsF80LsAQS997UtqFuJXVP18dsqhxcbUSxy9IfcTnNVe4iFkN\\nrEXnmuTZ01vM2HPQJeONUQh4Lqyrnn9lJWADuMC7AoGBAIlB2dp0aFwXWXVRTdTG\\nOPHsx4tHC/z7zQEBD9smgfRhgsObh0fywU451e5DP4vAqgGb63sDCQ1Q3Vk6bXCU\\nZjw6meW8TzHeMmpoHxwErfmmNZ4oz92sxQO9r156FThleT3dWW3NUWhSRZiS+mIT\\nQ5ECeKvy0baruJkMJuTOjVX4\\n-----END PRIVATE KEY-----\\n",
+                  "FIREBASE_CLIENT_EMAIL": "firebase-adminsdk-yz4aw@panamaesportacademy.iam.gserviceaccount.com",
+                  "PG_DB_HOST": "serverless-pesa.cr9bout85w1m.us-east-1.rds.amazonaws.com",
+                  "PG_DB_PORT": "5432",
+                  "PG_DB_NAME": "pesa_db",
+                  "PG_DB_USER": "stpancar",
+                  "PG_DB_PASSWORD": "m1ZCMLW91Cvuv4lkejL6"
                 }
               },
               "Role": {
@@ -202,17 +222,65 @@
               }
             },
             "DependsOn": [
-              "HelloLogGroup"
+              "MeLogGroup"
             ]
           },
-          "HelloLambdaVersion5sdAVhGRtRf7hPpd4U3arDk55bMtg6rgwLluKEyVjeg": {
+          "AuthorizerLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/pesa-serverless-backend/dev/1665599602574-2022-10-12T18:33:22.574Z/authorizer.zip"
+              },
+              "Handler": "src/functions/authorizer/handler.main",
+              "Runtime": "nodejs14.x",
+              "FunctionName": "pesa-serverless-backend-dev-authorizer",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                  "FIREBASE_PROJECT_ID": "panamaesportacademy",
+                  "FIREBASE_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDar4+tkYi33Hu2\\nWdUCxiJ68kxGEHAL5hvc0sZgVeA2DJW05UNx9CMcH9CmPDQDJjbINRCrWvlregQm\\nzPn8IgURHFX32+HcgUXmtOd6FP5r5qlFHcGl6/QTqnXFIeFcIsKPL+8nBaE66d39\\nPwdaKIfGGXhkCmtmiDO4j6+wNXrvVuagrdil1CaBrrwAXYLRjB2sWup+e4HOMVD2\\nlj+lyZCVqFvkqcyMQdHAHP49zEuKkqlt4Mo2nUxWogzQEvapXVI7oMWebw1hyuAA\\nJu4XkoBDqCOAE0OySuQYTCPzlwCJgBecVVaUOlUVLVQpaexcKp7bZzeXAezevkQW\\n2Kx6GDhPAgMBAAECggEAIOZoDkEmjsq7+KDRMXv6NKxT7001Hi/TTJ3lPG8PA/Km\\nvzKoD/Jz1HJbjfbhYwE9HVJmcfEw3wuEqQsOJ5w9Tj1eGE5bT4pJ/ZMv0/0T6HXT\\noiiqOTp4sPtkgRuUxQDHFosBRsn2X1+khx9pYsCq6ecWZq6ZSTFVM/9h+3eVntYZ\\nIrJYIPPJBzci/xpuIXG3HF2z+NwJWq7JeWsGRbYvesGBJ6E5Vu1gLXjAU8GKJV/y\\n4xNc13W/vsklufSrlseSHzIZprIZ6Onn7EKIXTrP3YAdeds8XOO/hnbVjxYbQ9tj\\nnf018IGaDVhRhqPPjjr26TUxWqT+MYE4mrrJNTYRmQKBgQD5QSTjUyY31sFQqVrN\\npPpEu1wgNETvYz4XSIyc5VOVFn/kbuIhw6LOudpYvoIgMuKeym0wEBQ3Ge284Vji\\nQy6b91SOhTX9D6emKStWQf7EALnU5//Hjqbll8DvEgeNA/zA6VyOJb7N5Q2EFlWV\\nWDUEP02G2AsESugfRNOH8hHQXQKBgQDgmqJ+lIkzrlMQdVfbKclwpimClnG/coCH\\nKSx2ReWtGDFFWGm/A7/YaYhZRR2d85NEKFbhCbDoLwhWQaoAk5/m4M4eckLamaXz\\nvYaf7sRAbeTN/keDBnHzNfTEt5N1PHMbdu3qFIB/rVCYM0ZyMMBxS8XGu7xjl6ay\\nCIAg/dpQmwKBgDkpvYH88cjgkZkkHdUHvvXAWlJwalbUVcsVMlpRJagNbus+mtHP\\ngikS6oZruoAT63ErT3s0VM6GPcWRkMbjTW8re9LrrgQJcRNkYbH4lKry16uCQWDM\\n0G3bLb4mTmECxxae7kETWvzxSPZAAQStJAuDUQ5Zwb0MSMvTBwgodflpAoGBAIyn\\nKdVdDWKo62mmImOkEnsSA3K85fS/Ls/1r9tNQFyahthnWql9HpnW1MUarEZq77FC\\nFc4NdJSiR3VE38JGsF80LsAQS997UtqFuJXVP18dsqhxcbUSxy9IfcTnNVe4iFkN\\nrEXnmuTZ01vM2HPQJeONUQh4Lqyrnn9lJWADuMC7AoGBAIlB2dp0aFwXWXVRTdTG\\nOPHsx4tHC/z7zQEBD9smgfRhgsObh0fywU451e5DP4vAqgGb63sDCQ1Q3Vk6bXCU\\nZjw6meW8TzHeMmpoHxwErfmmNZ4oz92sxQO9r156FThleT3dWW3NUWhSRZiS+mIT\\nQ5ECeKvy0baruJkMJuTOjVX4\\n-----END PRIVATE KEY-----\\n",
+                  "FIREBASE_CLIENT_EMAIL": "firebase-adminsdk-yz4aw@panamaesportacademy.iam.gserviceaccount.com",
+                  "PG_DB_HOST": "serverless-pesa.cr9bout85w1m.us-east-1.rds.amazonaws.com",
+                  "PG_DB_PORT": "5432",
+                  "PG_DB_NAME": "pesa_db",
+                  "PG_DB_USER": "stpancar",
+                  "PG_DB_PASSWORD": "m1ZCMLW91Cvuv4lkejL6"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "AuthorizerLogGroup"
+            ]
+          },
+          "MeLambdaVersion8nQJ65ZpLiAYZRljA7o8IB9WS4Cu1RRdUdkmvl14": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
-                "Ref": "HelloLambdaFunction"
+                "Ref": "MeLambdaFunction"
               },
-              "CodeSha256": "vO3bvrUpe5Na3aLmhS52w5G7YPqHbuzdmzDhxeXszDQ="
+              "CodeSha256": "cGOkA/Os4AO6th+aGaG10XcJtKU/d8CYRUMjrQj8l5U="
+            }
+          },
+          "AuthorizerLambdaVersionVP0gyLrhQR7e6boxOUOpN5oR6i5g4edF9j5IRXu8A": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AuthorizerLambdaFunction"
+              },
+              "CodeSha256": "pjMA/A2gdydsbQ0mxg4aEw958FAOcjg+IqfNBNAkJJs="
             }
           },
           "ApiGatewayRestApi": {
@@ -228,7 +296,7 @@
               "MinimumCompressionSize": 1024
             }
           },
-          "ApiGatewayResourceHello": {
+          "ApiGatewayResourceMe": {
             "Type": "AWS::ApiGateway::Resource",
             "Properties": {
               "ParentId": {
@@ -237,25 +305,130 @@
                   "RootResourceId"
                 ]
               },
-              "PathPart": "hello",
+              "PathPart": "me",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
             }
           },
-          "ApiGatewayMethodHelloPost": {
+          "ApiGatewayResourceMeIdVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceMe"
+              },
+              "PathPart": "{id}",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodMeOptions": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
-              "HttpMethod": "POST",
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceMe"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodMeIdVarOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceMeIdVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodMeGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
               "RequestParameters": {},
               "ResourceId": {
-                "Ref": "ApiGatewayResourceHello"
+                "Ref": "ApiGatewayResourceMe"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               },
               "ApiKeyRequired": false,
-              "AuthorizationType": "NONE",
+              "AuthorizationType": "CUSTOM",
+              "AuthorizerId": {
+                "Ref": "AuthorizerApiGatewayAuthorizer"
+              },
               "Integration": {
                 "IntegrationHttpMethod": "POST",
                 "Type": "AWS_PROXY",
@@ -274,7 +447,101 @@
                       ":lambda:path/2015-03-31/functions/",
                       {
                         "Fn::GetAtt": [
-                          "HelloLambdaFunction",
+                          "MeLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": "AuthorizerApiGatewayAuthorizer"
+          },
+          "ApiGatewayMethodMeIdVarGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceMeIdVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "CUSTOM",
+              "AuthorizerId": {
+                "Ref": "AuthorizerApiGatewayAuthorizer"
+              },
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "MeLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": "AuthorizerApiGatewayAuthorizer"
+          },
+          "ApiGatewayMethodMePost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceMe"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "CUSTOM",
+              "AuthorizerId": {
+                "Ref": "AuthorizerApiGatewayAuthorizer"
+              },
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "MeLambdaFunction",
                           "Arn"
                         ]
                       },
@@ -289,13 +556,11 @@
               },
               "RequestModels": {
                 "application/json": {
-                  "Ref": "ApiGatewayMethodHelloPostApplicationJsonModel"
+                  "Ref": "ApiGatewayMethodMePostApplicationJsonModel"
                 }
               }
             },
-            "DependsOn": [
-              "HelloLambdaPermissionApiGateway"
-            ]
+            "DependsOn": "AuthorizerApiGatewayAuthorizer"
           },
           "ApiGatewayPesaserverlessbackendRequestValidator": {
             "Type": "AWS::ApiGateway::RequestValidator",
@@ -308,7 +573,7 @@
               "Name": "pesa-serverless-backend-dev | Validate request body and querystring parameters"
             }
           },
-          "ApiGatewayMethodHelloPostApplicationJsonModel": {
+          "ApiGatewayMethodMePostApplicationJsonModel": {
             "Type": "AWS::ApiGateway::Model",
             "Properties": {
               "RestApiId": {
@@ -318,17 +583,66 @@
               "Schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
+                  "displayName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "photoURL": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "uid": {
                     "type": "string"
                   }
                 },
                 "required": [
-                  "name"
+                  "displayName",
+                  "email",
+                  "uid"
                 ]
               }
             }
           },
-          "ApiGatewayDeployment1663900591436": {
+          "AuthorizerApiGatewayAuthorizer": {
+            "Type": "AWS::ApiGateway::Authorizer",
+            "Properties": {
+              "AuthorizerResultTtlInSeconds": 300,
+              "IdentitySource": "method.request.header.Authorization",
+              "Name": "authorizer",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "AuthorizerUri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "AuthorizerLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              },
+              "Type": "TOKEN"
+            }
+          },
+          "ApiGatewayDeployment1665599600843": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -337,15 +651,56 @@
               "StageName": "dev"
             },
             "DependsOn": [
-              "ApiGatewayMethodHelloPost"
+              "ApiGatewayMethodMeOptions",
+              "ApiGatewayMethodMeIdVarOptions",
+              "ApiGatewayMethodMeGet",
+              "ApiGatewayMethodMeIdVarGet",
+              "ApiGatewayMethodMePost"
             ]
           },
-          "HelloLambdaPermissionApiGateway": {
+          "MeLambdaPermissionApiGateway": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
               "FunctionName": {
                 "Fn::GetAtt": [
-                  "HelloLambdaFunction",
+                  "MeLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "AuthorizerLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AuthorizerLambdaFunction",
                   "Arn"
                 ]
               },
@@ -387,13 +742,22 @@
               "Name": "sls-pesa-serverless-backend-dev-ServerlessDeploymentBucketName"
             }
           },
-          "HelloLambdaFunctionQualifiedArn": {
+          "MeLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "HelloLambdaVersion5sdAVhGRtRf7hPpd4U3arDk55bMtg6rgwLluKEyVjeg"
+              "Ref": "MeLambdaVersion8nQJ65ZpLiAYZRljA7o8IB9WS4Cu1RRdUdkmvl14"
             },
             "Export": {
-              "Name": "sls-pesa-serverless-backend-dev-HelloLambdaFunctionQualifiedArn"
+              "Name": "sls-pesa-serverless-backend-dev-MeLambdaFunctionQualifiedArn"
+            }
+          },
+          "AuthorizerLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AuthorizerLambdaVersionVP0gyLrhQR7e6boxOUOpN5oR6i5g4edF9j5IRXu8A"
+            },
+            "Export": {
+              "Name": "sls-pesa-serverless-backend-dev-AuthorizerLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -511,7 +875,7 @@
     "custom": {
       "esbuild": {
         "bundle": true,
-        "minify": false,
+        "minify": true,
         "sourcemap": true,
         "exclude": [
           "aws-sdk"
@@ -524,21 +888,115 @@
     },
     "plugins": [
       "serverless-esbuild",
-      "serverless-offline"
+      "serverless-offline",
+      "serverless-dotenv-plugin"
     ],
     "pluginsData": {},
     "functions": {
-      "hello": {
-        "handler": "src/functions/hello/handler.main",
+      "me": {
+        "handler": "src/functions/me/handler.main",
+        "timeout": 30,
         "events": [
           {
             "http": {
+              "method": "get",
+              "path": "me",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "authorizer": {
+                "name": "authorizer",
+                "arn": {
+                  "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AuthorizerLambdaPermissionApiGateway\"][\"Properties\"][\"FunctionName\"]"
+                },
+                "managedExternally": false,
+                "resultTtlInSeconds": 300,
+                "identitySource": "method.request.header.Authorization",
+                "claims": []
+              },
+              "integration": "AWS_PROXY"
+            }
+          },
+          {
+            "http": {
+              "method": "get",
+              "path": "me/{id}",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "authorizer": {
+                "name": "authorizer",
+                "arn": {
+                  "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AuthorizerLambdaPermissionApiGateway\"][\"Properties\"][\"FunctionName\"]"
+                },
+                "managedExternally": false,
+                "resultTtlInSeconds": 300,
+                "identitySource": "method.request.header.Authorization",
+                "claims": []
+              },
+              "integration": "AWS_PROXY"
+            }
+          },
+          {
+            "http": {
               "method": "post",
-              "path": "hello",
+              "path": "me",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "POST"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "authorizer": {
+                "name": "authorizer",
+                "arn": {
+                  "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AuthorizerLambdaPermissionApiGateway\"][\"Properties\"][\"FunctionName\"]"
+                },
+                "managedExternally": false,
+                "resultTtlInSeconds": 300,
+                "identitySource": "method.request.header.Authorization",
+                "claims": []
+              },
               "request": {
                 "schemas": {
                   "application/json": {
-                    "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"ApiGatewayMethodHelloPostApplicationJsonModel\"][\"Properties\"][\"Schema\"]"
+                    "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"ApiGatewayMethodMePostApplicationJsonModel\"][\"Properties\"][\"Schema\"]"
                   }
                 }
               },
@@ -546,15 +1004,27 @@
             }
           }
         ],
-        "name": "pesa-serverless-backend-dev-hello",
+        "name": "pesa-serverless-backend-dev-me",
         "package": {
-          "artifact": ".serverless/hello.zip"
+          "artifact": ".serverless/me.zip"
+        },
+        "memory": 1024,
+        "runtime": "nodejs14.x",
+        "vpc": {},
+        "versionLogicalId": "MeLambdaVersion8nQJ65ZpLiAYZRljA7o8IB9WS4Cu1RRdUdkmvl14"
+      },
+      "authorizer": {
+        "handler": "src/functions/authorizer/handler.main",
+        "events": [],
+        "name": "pesa-serverless-backend-dev-authorizer",
+        "package": {
+          "artifact": ".serverless/authorizer.zip"
         },
         "memory": 1024,
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "HelloLambdaVersion5sdAVhGRtRf7hPpd4U3arDk55bMtg6rgwLluKEyVjeg"
+        "versionLogicalId": "AuthorizerLambdaVersionVP0gyLrhQR7e6boxOUOpN5oR6i5g4edF9j5IRXu8A"
       }
     },
     "configValidationMode": "warn",
@@ -565,6 +1035,7 @@
       "plugins": {
         "$ref": "$[\"service\"][\"plugins\"]"
       },
+      "useDotenv": true,
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
       },
@@ -584,7 +1055,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/pesa-serverless-backend/dev/1663900593189-2022-09-23T02:36:33.189Z",
+    "artifactDirectoryName": "serverless/pesa-serverless-backend/dev/1665599602574-2022-10-12T18:33:22.574Z",
     "artifact": ""
   }
 }
