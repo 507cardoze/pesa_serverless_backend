@@ -9,21 +9,31 @@ import { middyfy } from '@libs/lambda';
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import { bodyPayloadType } from '@functions/me/interface/handlePost';
 
+let DB: any;
+
 const me: APIGatewayProxyHandler = async (event) => {
-	const DB = await getDBInstance();
+	if (!DB) {
+		DB = await getDBInstance();
+	} else {
+		DB.sequelize.connectionManager.initPools();
+		if (DB.sequelize.connectionManager.hasOwnProperty('getConnection')) {
+			delete DB.sequelize.connectionManager.getConnection;
+		}
+	}
+
 	try {
 		switch (event.httpMethod) {
 			case 'GET':
 				if (event.pathParameters && event.pathParameters.id)
-					return handleGet(event.pathParameters.id, DB);
+					return await handleGet(event.pathParameters.id, DB);
 
 				if (!event.requestContext.authorizer)
-					throw new Error('principalId is not present');
+					throw new Error('authorizer is not present');
 				const uid: string = event.requestContext.authorizer.principalId;
-				return handleGet(uid, DB);
+				return await handleGet(uid, DB);
 			case 'POST':
 				const body: bodyPayloadType = parseBody(event.body);
-				return handleCreate(body, DB);
+				return await handleCreate(body, DB);
 			default:
 				throw new Error('Method not supported');
 		}
@@ -31,6 +41,8 @@ const me: APIGatewayProxyHandler = async (event) => {
 		return internalServerError({
 			message: error.message,
 		});
+	} finally {
+		await DB.close();
 	}
 };
 
@@ -40,11 +52,9 @@ const handleGet = async (uid: string, DB: db) => {
 			include: [
 				{
 					model: DB.team,
-					include: [
-						{
-							model: DB.invitation,
-						},
-					],
+				},
+				{
+					model: DB.invitation,
 				},
 			],
 		});
@@ -71,6 +81,11 @@ const handleCreate = async (
 			where: {
 				uid: uid,
 			},
+			include: [
+				{
+					model: DB.team,
+				},
+			],
 		});
 
 		if (verifyUser)

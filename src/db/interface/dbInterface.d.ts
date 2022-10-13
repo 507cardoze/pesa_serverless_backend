@@ -8,6 +8,7 @@ import { Team } from '@db/models/team';
 import { VideoGame } from '@db/models/video-game';
 import { VideoGameHardware } from '@db/models/video-game-hardware';
 import { Sequelize } from 'sequelize';
+import { ConnectionManager } from 'sequelize/types/dialects/abstract/connection-manager';
 
 export interface dbInterface {
 	// Sequelize ORM object
@@ -18,6 +19,9 @@ export interface dbInterface {
 	associate: Function;
 	// Use this function to prefill data into tables when empty
 	seed: Function;
+	// Use this function to close connection with DB
+	close: Function;
+
 	// Models for this project
 	player: Player;
 	team: Team;
