@@ -6,7 +6,6 @@ export class Invitation extends Model {
 	public id: string;
 	public teamId: string;
 	public playerId: string;
-	public accepted: boolean;
 }
 
 export async function initInvitation(sequelize: Sequelize) {
@@ -28,10 +27,6 @@ export async function initInvitation(sequelize: Sequelize) {
 				type: new DataTypes.STRING(256),
 				allowNull: false,
 			},
-			accepted: {
-				type: new DataTypes.BOOLEAN(),
-				allowNull: false,
-			},
 		},
 		{
 			tableName: 'invitations',
@@ -46,9 +41,8 @@ export async function initInvitation(sequelize: Sequelize) {
 export async function seedInvitation(DB: db) {
 	const invitations = await DB.invitation.findAndCountAll();
 	if (!invitations.count) {
-		const data: Array<
-			Pick<Invitation, 'id' | 'teamId' | 'playerId' | 'accepted'>
-		> = INVITATION_STUBS;
+		const data: Array<Pick<Invitation, 'id' | 'teamId' | 'playerId'>> =
+			INVITATION_STUBS;
 		return await DB.invitation.bulkCreate(data, { returning: true });
 	}
 }

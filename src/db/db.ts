@@ -17,7 +17,6 @@ import { videoGameHardwareAssociation } from '@db/associate/video-game-hardware'
 import { initGameMode, seedGameMode } from '@db/models/game-mode';
 import { initEvent, seedEvent } from '@db/models/event';
 import { eventAssociation } from './associate/event';
-import { ConnectionManager } from 'sequelize/types/dialects/abstract/connection-manager';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
@@ -40,7 +39,7 @@ export class db implements dbInterface {
 				host: process.env.PG_DB_HOST ?? '',
 				dialect: 'postgres',
 				dialectModule: pg,
-				logging: true,
+				logging: console.log,
 				pool: {
 					max: 2,
 					min: 0,
@@ -97,12 +96,10 @@ export class db implements dbInterface {
 
 			//Sync DB
 			try {
-				const sequelize = await this.sequelize.sync();
+				await this.sequelize.sync();
 				console.log('Database & tables created!');
-				return sequelize;
 			} catch (error) {
 				console.error(`DB Sequelize Connection Failed: ${error}`);
-				return error;
 			}
 		} catch (error) {
 			console.error('Unable to connect to the database:', error);
@@ -121,6 +118,6 @@ export class db implements dbInterface {
 export const getDBInstance = async () => {
 	const DB = new db();
 	await DB.authenticate();
-	//await DB.seed();
+	await DB.seed();
 	return DB;
 };
