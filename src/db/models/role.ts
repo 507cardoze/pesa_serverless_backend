@@ -1,15 +1,15 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 import { db } from '@db/db';
-import { METRIC_KEY_STUBS } from '@db/stubs/metric-key';
+import { ROLE_STUBS } from '@db/stubs/role';
 
-export class MetricKey extends Model {
+export class Role extends Model {
 	public id: string;
 	public name: string;
 }
 
-export async function initMetricKey(sequelize: Sequelize) {
+export async function initRole(sequelize: Sequelize) {
 	sequelize.define(
-		'metricKey',
+		'role',
 		{
 			id: {
 				type: new DataTypes.UUID(),
@@ -24,8 +24,8 @@ export async function initMetricKey(sequelize: Sequelize) {
 			},
 		},
 		{
-			tableName: 'metricKeys',
-			modelName: 'MetricKey',
+			tableName: 'roles',
+			modelName: 'Role',
 			paranoid: true,
 			timestamps: true,
 			freezeTableName: true,
@@ -33,10 +33,10 @@ export async function initMetricKey(sequelize: Sequelize) {
 	);
 }
 
-export async function seedMetricKey(DB: db) {
-	const metricKey = await DB.metricKey.findAndCountAll();
-	if (!metricKey.count) {
-		const data = METRIC_KEY_STUBS;
-		await DB.metricKey.bulkCreate(data);
+export async function seedRole(DB: db) {
+	const role = await DB.role.findAndCountAll();
+	if (!role.count) {
+		const data = ROLE_STUBS;
+		await DB.role.bulkCreate(data);
 	}
 }

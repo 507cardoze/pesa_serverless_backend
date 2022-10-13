@@ -41,8 +41,7 @@ export async function initGameMode(sequelize: Sequelize) {
 export async function seedGameMode(DB: db) {
 	const gameMode = await DB.gameMode.findAndCountAll();
 	if (!gameMode.count) {
-		const data: Array<Pick<GameMode, 'id' | 'name' | 'description'>> =
-			GAMEMODE_STUBS;
+		const data = GAMEMODE_STUBS;
 		return await DB.gameMode.bulkCreate(data, { returning: true });
 	}
 }

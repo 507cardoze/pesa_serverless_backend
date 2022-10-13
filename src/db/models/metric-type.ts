@@ -36,7 +36,7 @@ export async function initMetricType(sequelize: Sequelize) {
 export async function seedMetricType(DB: db) {
 	const metricType = await DB.metricType.findAndCountAll();
 	if (!metricType.count) {
-		const data: Array<Pick<MetricType, 'id' | 'name'>> = METRIC_TYPE_STUBS;
+		const data = METRIC_TYPE_STUBS;
 		await DB.metricType.bulkCreate(data);
 	}
 }

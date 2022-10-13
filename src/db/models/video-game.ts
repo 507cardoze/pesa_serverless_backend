@@ -37,7 +37,7 @@ export async function initVideoGame(sequelize: Sequelize) {
 export async function seedVideoGame(DB: db) {
 	const videoGames = await DB.videoGame.findAndCountAll();
 	if (!videoGames.count) {
-		const data: Array<Pick<VideoGame, 'id' | 'displayName'>> = VIDEO_GAME_STUBS;
+		const data = VIDEO_GAME_STUBS;
 		return await DB.videoGame.bulkCreate(data, { returning: true });
 	}
 }

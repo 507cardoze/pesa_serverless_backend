@@ -41,9 +41,7 @@ export async function initVideoGameHardware(sequelize: Sequelize) {
 export async function seedVideoGameHardware(DB: db) {
 	const videoGameHardwares = await DB.videoGameHardware.findAndCountAll();
 	if (!videoGameHardwares.count) {
-		const data: Array<
-			Pick<VideoGameHardware, 'id' | 'idVideoGame' | 'idHardware'>
-		> = VIDEO_GAME_HARDWARE_STUBS;
+		const data = VIDEO_GAME_HARDWARE_STUBS;
 		return await DB.videoGameHardware.bulkCreate(data, { returning: true });
 	}
 }

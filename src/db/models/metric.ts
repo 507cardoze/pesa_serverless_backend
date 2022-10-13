@@ -51,12 +51,7 @@ export async function initMetric(sequelize: Sequelize) {
 export async function seedMetric(DB: db) {
 	const metric = await DB.metric.findAndCountAll();
 	if (!metric.count) {
-		const data: Array<
-			Pick<
-				Metric,
-				'id' | 'metricTypeId' | 'metricKeyId' | 'value' | 'gamePlayerId'
-			>
-		> = METRIC_STUBS;
+		const data = METRIC_STUBS;
 		await DB.metric.bulkCreate(data);
 	}
 }

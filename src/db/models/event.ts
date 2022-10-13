@@ -76,21 +76,7 @@ export async function initEvent(sequelize: Sequelize) {
 export async function seedEvent(DB: db) {
 	const event = await DB.event.findAndCountAll();
 	if (!event.count) {
-		const data: Array<
-			Pick<
-				Event,
-				| 'id'
-				| 'name'
-				| 'description'
-				| 'inscripInitDate'
-				| 'inscripEndDate'
-				| 'isCoaching'
-				| 'isLive'
-				| 'bannerUrl'
-				| 'videoGameId'
-				| 'gameModeId'
-			>
-		> = EVENT_STUBS;
+		const data = EVENT_STUBS;
 		return await DB.event.bulkCreate(data, { returning: true });
 	}
 }

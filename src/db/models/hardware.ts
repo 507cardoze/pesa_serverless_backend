@@ -37,7 +37,7 @@ export async function initHardware(sequelize: Sequelize) {
 export async function seedHardware(DB: db) {
 	const hardware = await DB.hardware.findAndCountAll();
 	if (!hardware.count) {
-		const data: Array<Pick<Hardware, 'id' | 'displayName'>> = HARDWARE_STUBS;
+		const data = HARDWARE_STUBS;
 		return await DB.hardware.bulkCreate(data, { returning: true });
 	}
 }

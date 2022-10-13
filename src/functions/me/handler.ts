@@ -41,6 +41,11 @@ const handleGet = async (uid: string, DB: db) => {
 			include: [
 				{
 					model: DB.team,
+					include: [
+						{
+							model: DB.role,
+						},
+					],
 				},
 				{
 					model: DB.invitation,

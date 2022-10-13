@@ -24,6 +24,7 @@ import { initMetricKey, seedMetricKey } from '@db/models/metric-key';
 import { gameAssociation } from '@db/associate/game';
 import { metricAssociation } from '@db/associate/metric';
 import { initGamePlayer, seedGamePlayer } from '@db/models/game-player';
+import { initRole, seedRole } from '@db/models/role';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
@@ -41,6 +42,7 @@ export class db implements dbInterface {
 	metricType: any;
 	metricKey: any;
 	gamePlayer: any;
+	role: any;
 
 	constructor() {
 		this.sequelize = new Sequelize(
@@ -76,8 +78,10 @@ export class db implements dbInterface {
 		initMetricType(this.sequelize);
 		initMetricKey(this.sequelize);
 		initGamePlayer(this.sequelize);
+		initRole(this.sequelize);
 		this.player = this.sequelize.models.player;
 		this.team = this.sequelize.models.team;
+		this.role = this.sequelize.models.role;
 		this.roster = this.sequelize.models.roster;
 		this.invitation = this.sequelize.models.invitation;
 		this.videoGame = this.sequelize.models.videoGame;
@@ -104,6 +108,7 @@ export class db implements dbInterface {
 	async seed() {
 		await seedPlayer(this);
 		await seedTeam(this);
+		await seedRole(this);
 		await seedRoster(this);
 		await seedInvitation(this);
 		await seedVideoGame(this);

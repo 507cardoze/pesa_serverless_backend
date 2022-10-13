@@ -46,9 +46,7 @@ export async function initGamePlayer(sequelize: Sequelize) {
 export async function seedGamePlayer(DB: db) {
 	const gamePlayer = await DB.gamePlayer.findAndCountAll();
 	if (!gamePlayer.count) {
-		const data: Array<
-			Pick<GamePlayer, 'id' | 'gameId' | 'playerId' | 'teamId'>
-		> = GAMER_PLAYER_STUBS;
+		const data = GAMER_PLAYER_STUBS;
 		return await DB.gamePlayer.bulkCreate(data, { returning: true });
 	}
 }

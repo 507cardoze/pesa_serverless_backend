@@ -6,6 +6,7 @@ export class Roster extends Model {
 	public id: string;
 	public teamId: string;
 	public playerId: string;
+	public roleId: string;
 }
 
 export async function initRoster(sequelize: Sequelize) {
@@ -27,6 +28,10 @@ export async function initRoster(sequelize: Sequelize) {
 				type: new DataTypes.STRING(256),
 				allowNull: false,
 			},
+			roleId: {
+				type: new DataTypes.UUID(),
+				allowNull: false,
+			},
 		},
 		{
 			tableName: 'rosters',
@@ -41,8 +46,7 @@ export async function initRoster(sequelize: Sequelize) {
 export async function seedRoster(DB: db) {
 	const roster = await DB.roster.findAndCountAll();
 	if (!roster.count) {
-		const data: Array<Pick<Roster, 'id' | 'teamId' | 'playerId'>> =
-			ROSTER_STUBS;
+		const data = ROSTER_STUBS;
 		return await DB.roster.bulkCreate(data, { returning: true });
 	}
 }

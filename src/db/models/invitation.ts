@@ -41,8 +41,7 @@ export async function initInvitation(sequelize: Sequelize) {
 export async function seedInvitation(DB: db) {
 	const invitations = await DB.invitation.findAndCountAll();
 	if (!invitations.count) {
-		const data: Array<Pick<Invitation, 'id' | 'teamId' | 'playerId'>> =
-			INVITATION_STUBS;
+		const data = INVITATION_STUBS;
 		return await DB.invitation.bulkCreate(data, { returning: true });
 	}
 }

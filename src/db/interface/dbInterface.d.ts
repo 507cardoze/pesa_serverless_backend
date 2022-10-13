@@ -8,6 +8,7 @@ import { Metric } from '@db/models/metric';
 import { MetricKey } from '@db/models/metric-key';
 import { MetricType } from '@db/models/metric-type';
 import { Player } from '@db/models/player';
+import { Role } from '@db/models/role';
 import { Roster } from '@db/models/roster';
 import { Team } from '@db/models/team';
 import { VideoGame } from '@db/models/video-game';
@@ -41,4 +42,5 @@ export interface dbInterface {
 	metricType: MetricType;
 	metricKey: MetricKey;
 	gamePlayer: GamePlayer;
+	role: Role;
 }
