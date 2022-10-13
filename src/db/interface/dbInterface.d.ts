@@ -1,6 +1,7 @@
 import { Event } from '@db/models/event';
 import { Game } from '@db/models/game';
 import { GameMode } from '@db/models/game-mode';
+import { GamePlayer } from '@db/models/game-player';
 import { Hardware } from '@db/models/hardware';
 import { Invitation } from '@db/models/invitation';
 import { Metric } from '@db/models/metric';
@@ -39,4 +40,5 @@ export interface dbInterface {
 	metric: Metric;
 	metricType: MetricType;
 	metricKey: MetricKey;
+	gamePlayer: GamePlayer;
 }

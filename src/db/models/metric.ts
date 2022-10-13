@@ -7,6 +7,7 @@ export class Metric extends Model {
 	public metricTypeId: string;
 	public metricKeyId: string;
 	public value: string;
+	public gamePlayerId: string;
 }
 
 export async function initMetric(sequelize: Sequelize) {
@@ -32,6 +33,10 @@ export async function initMetric(sequelize: Sequelize) {
 				type: new DataTypes.STRING(256),
 				allowNull: false,
 			},
+			gamePlayerId: {
+				type: new DataTypes.UUID(),
+				allowNull: false,
+			},
 		},
 		{
 			tableName: 'metrics',
@@ -47,7 +52,10 @@ export async function seedMetric(DB: db) {
 	const metric = await DB.metric.findAndCountAll();
 	if (!metric.count) {
 		const data: Array<
-			Pick<Metric, 'id' | 'metricTypeId' | 'metricKeyId' | 'value'>
+			Pick<
+				Metric,
+				'id' | 'metricTypeId' | 'metricKeyId' | 'value' | 'gamePlayerId'
+			>
 		> = METRIC_STUBS;
 		await DB.metric.bulkCreate(data);
 	}

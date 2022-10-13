@@ -6,8 +6,6 @@ export class Game extends Model {
 	public id: string;
 	public gameNum: number;
 	public eventId: string;
-	public teamId: string;
-	public playerId: string;
 }
 
 export async function initGame(sequelize: Sequelize) {
@@ -29,14 +27,6 @@ export async function initGame(sequelize: Sequelize) {
 				type: new DataTypes.UUID(),
 				allowNull: false,
 			},
-			teamId: {
-				type: new DataTypes.UUID(),
-				allowNull: true,
-			},
-			playerId: {
-				type: new DataTypes.STRING(256),
-				allowNull: false,
-			},
 		},
 		{
 			tableName: 'games',
@@ -51,9 +41,7 @@ export async function initGame(sequelize: Sequelize) {
 export async function seedGame(DB: db) {
 	const game = await DB.game.findAndCountAll();
 	if (!game.count) {
-		const data: Array<
-			Pick<Game, 'id' | 'gameNum' | 'eventId' | 'teamId' | 'playerId'>
-		> = GAME_STUB;
+		const data: Array<Pick<Game, 'id' | 'gameNum' | 'eventId'>> = GAME_STUB;
 		return await DB.game.bulkCreate(data, { returning: true });
 	}
 }

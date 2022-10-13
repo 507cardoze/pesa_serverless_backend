@@ -16,4 +16,13 @@ export const metricAssociation = async (DB: db) => {
 	await DB.metric.belongsTo(DB.metricType, {
 		foreignKey: 'metricTypeId',
 	});
+
+
+	await DB.gamePlayer.hasMany(DB.metric, {
+		foreignKey: 'gamePlayerId',
+	});
+
+	await DB.metric.belongsTo(DB.gamePlayer, {
+		foreignKey: 'gamePlayerId',
+	});
 };

@@ -1,7 +1,7 @@
 import * as pg from 'pg';
-import { Model, ModelCtor, Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize';
 import { dbInterface } from '@db/interface/dbInterface';
-import { initPlayer, Player, seedPlayer } from '@db/models/player';
+import { initPlayer, seedPlayer } from '@db/models/player';
 import { initTeam, seedTeam } from '@db/models/team';
 import { initRoster, seedRoster } from '@db/models/roster';
 import { initInvitation, seedInvitation } from '@db/models/invitation';
@@ -23,6 +23,7 @@ import { initMetricType, seedMetricType } from '@db/models/metric-type';
 import { initMetricKey, seedMetricKey } from '@db/models/metric-key';
 import { gameAssociation } from '@db/associate/game';
 import { metricAssociation } from '@db/associate/metric';
+import { initGamePlayer, seedGamePlayer } from '@db/models/game-player';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
@@ -39,6 +40,7 @@ export class db implements dbInterface {
 	metric: any;
 	metricType: any;
 	metricKey: any;
+	gamePlayer: any;
 
 	constructor() {
 		this.sequelize = new Sequelize(
@@ -73,6 +75,7 @@ export class db implements dbInterface {
 		initMetric(this.sequelize);
 		initMetricType(this.sequelize);
 		initMetricKey(this.sequelize);
+		initGamePlayer(this.sequelize);
 		this.player = this.sequelize.models.player;
 		this.team = this.sequelize.models.team;
 		this.roster = this.sequelize.models.roster;
@@ -83,6 +86,7 @@ export class db implements dbInterface {
 		this.gameMode = this.sequelize.models.gameMode;
 		this.event = this.sequelize.models.event;
 		this.game = this.sequelize.models.game;
+		this.gamePlayer = this.sequelize.models.gamePlayer;
 		this.metricType = this.sequelize.models.metricType;
 		this.metricKey = this.sequelize.models.metricKey;
 		this.metric = this.sequelize.models.metric;
@@ -108,6 +112,7 @@ export class db implements dbInterface {
 		await seedGameMode(this);
 		await seedEvent(this);
 		await seedGame(this);
+		await seedGamePlayer(this);
 		await seedMetricType(this);
 		await seedMetricKey(this);
 		await seedMetric(this);
@@ -120,7 +125,7 @@ export class db implements dbInterface {
 
 			//Sync DB
 			try {
-				await this.sequelize.sync({ force: false });
+				await this.sequelize.sync({ force: true });
 				console.log('Database & tables created!');
 			} catch (error) {
 				console.error(`DB Sequelize Connection Failed: ${error}`);
