@@ -16,7 +16,7 @@ import { invitationAssociation } from '@db/associate/invitation';
 import { videoGameHardwareAssociation } from '@db/associate/video-game-hardware';
 import { initGameMode, seedGameMode } from '@db/models/game-mode';
 import { initEvent, seedEvent } from '@db/models/event';
-import { eventAssociation } from './associate/event';
+import { eventAssociation } from '@db/associate/event';
 import { initGame, seedGame } from '@db/models/game';
 import { initMetric, seedMetric } from '@db/models/metric';
 import { initMetricType, seedMetricType } from '@db/models/metric-type';
@@ -28,7 +28,7 @@ import { initRole, seedRole } from '@db/models/role';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
-	player: any;
+	player;
 	team: any;
 	roster: any;
 	invitation: any;
@@ -123,7 +123,7 @@ export class db implements dbInterface {
 		await seedMetric(this);
 	}
 
-	async authenticate() {
+	async async() {
 		try {
 			//Create associations
 			await this.associate();
@@ -131,12 +131,26 @@ export class db implements dbInterface {
 			//Sync DB
 			try {
 				await this.sequelize.sync();
+				//seed database
+				await this.seed();
 				console.log('Database & tables created!');
 			} catch (error) {
 				console.error(`DB Sequelize Connection Failed: ${error}`);
 			}
 		} catch (error) {
 			console.error('Unable to connect to the database:', error);
+		}
+	}
+
+	async authenticate() {
+		try {
+			//Create associations
+			await this.associate();
+
+			await this.sequelize.authenticate();
+			console.log('Connection has been established successfully.');
+		} catch (error) {
+			console.error(`DB Sequelize Connection Failed: ${error}`);
 		}
 	}
 
@@ -150,8 +164,11 @@ export class db implements dbInterface {
 }
 
 export const getDBInstance = async () => {
+	const isOffline = Boolean(process.env.IS_OFFLINE) ? true : false;
+
 	const DB = new db();
-	await DB.authenticate();
-	await DB.seed();
+
+	isOffline ? await DB.async() : await DB.authenticate();
+
 	return DB;
 };

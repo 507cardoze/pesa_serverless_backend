@@ -72,9 +72,39 @@ const handleGet = async (uid: string, DB: db) => {
 
 		if (!me) throw new Error('User Session info not found.');
 
+		const upcomingEvents = await DB.event.findAll({
+			attributes: [
+				'id',
+				'name',
+				'description',
+				'inscripInitDate',
+				'inscripEndDate',
+				'isCoaching',
+				'isLive',
+				'bannerUrl',
+			],
+			include: [
+				{
+					model: DB.gameMode,
+					attributes: ['name', 'description'],
+				},
+				{
+					model: DB.videoGame,
+					attributes: ['displayName'],
+					include: [
+						{
+							model: DB.hardware,
+							attributes: ['displayName'],
+						},
+					],
+				},
+			],
+		});
+
 		return formatJSONResponse({
 			message: 'User Session info found.',
 			userInfo: me,
+			upcomingEvents,
 		});
 	} catch (error) {
 		return internalServerError({

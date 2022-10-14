@@ -167,13 +167,13 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/pesa-serverless-backend/dev/1665599602574-2022-10-12T18:33:22.574Z/me.zip"
+          "S3Key": "serverless/pesa-serverless-backend/dev/1665703090161-2022-10-13T23:18:10.161Z/me.zip"
         },
         "Handler": "src/functions/me/handler.main",
         "Runtime": "nodejs14.x",
         "FunctionName": "pesa-serverless-backend-dev-me",
         "MemorySize": 1024,
-        "Timeout": 30,
+        "Timeout": 900,
         "Environment": {
           "Variables": {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
@@ -205,7 +205,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/pesa-serverless-backend/dev/1665599602574-2022-10-12T18:33:22.574Z/authorizer.zip"
+          "S3Key": "serverless/pesa-serverless-backend/dev/1665703090161-2022-10-13T23:18:10.161Z/authorizer.zip"
         },
         "Handler": "src/functions/authorizer/handler.main",
         "Runtime": "nodejs14.x",
@@ -236,24 +236,24 @@
         "AuthorizerLogGroup"
       ]
     },
-    "MeLambdaVersion8nQJ65ZpLiAYZRljA7o8IB9WS4Cu1RRdUdkmvl14": {
+    "MeLambdaVersionwWgGRHH2LnsCpGIhM8bSco7itkfygc8O4RiGvlUuAHU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "MeLambdaFunction"
         },
-        "CodeSha256": "cGOkA/Os4AO6th+aGaG10XcJtKU/d8CYRUMjrQj8l5U="
+        "CodeSha256": "G84CKRR2EJ8ICd6uwULGH9YxHIGcFg6xHhop9fyLhdw="
       }
     },
-    "AuthorizerLambdaVersionVP0gyLrhQR7e6boxOUOpN5oR6i5g4edF9j5IRXu8A": {
+    "AuthorizerLambdaVersionjTFqCEuF632ksqI1xpscKLGjoPqwpA4XltWjSuBI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AuthorizerLambdaFunction"
         },
-        "CodeSha256": "pjMA/A2gdydsbQ0mxg4aEw958FAOcjg+IqfNBNAkJJs="
+        "CodeSha256": "p8ettItJF5r6+3bnF3R4nu3r9d2FKruS22CilF7hFXc="
       }
     },
     "ApiGatewayRestApi": {
@@ -284,64 +284,7 @@
         }
       }
     },
-    "ApiGatewayResourceMeIdVar": {
-      "Type": "AWS::ApiGateway::Resource",
-      "Properties": {
-        "ParentId": {
-          "Ref": "ApiGatewayResourceMe"
-        },
-        "PathPart": "{id}",
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
     "ApiGatewayMethodMeOptions": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "AuthorizationType": "NONE",
-        "HttpMethod": "OPTIONS",
-        "MethodResponses": [
-          {
-            "StatusCode": "200",
-            "ResponseParameters": {
-              "method.response.header.Access-Control-Allow-Origin": true,
-              "method.response.header.Access-Control-Allow-Headers": true,
-              "method.response.header.Access-Control-Allow-Methods": true
-            },
-            "ResponseModels": {}
-          }
-        ],
-        "RequestParameters": {},
-        "Integration": {
-          "Type": "MOCK",
-          "RequestTemplates": {
-            "application/json": "{statusCode:200}"
-          },
-          "ContentHandling": "CONVERT_TO_TEXT",
-          "IntegrationResponses": [
-            {
-              "StatusCode": "200",
-              "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,GET'"
-              },
-              "ResponseTemplates": {
-                "application/json": ""
-              }
-            }
-          ]
-        },
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceMe"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayMethodMeIdVarOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "AuthorizationType": "NONE",
@@ -379,7 +322,7 @@
           ]
         },
         "ResourceId": {
-          "Ref": "ApiGatewayResourceMeIdVar"
+          "Ref": "ApiGatewayResourceMe"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -433,153 +376,6 @@
       },
       "DependsOn": "AuthorizerApiGatewayAuthorizer"
     },
-    "ApiGatewayMethodMeIdVarGet": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "GET",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceMeIdVar"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "ApiKeyRequired": false,
-        "AuthorizationType": "CUSTOM",
-        "AuthorizerId": {
-          "Ref": "AuthorizerApiGatewayAuthorizer"
-        },
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "MeLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
-      },
-      "DependsOn": "AuthorizerApiGatewayAuthorizer"
-    },
-    "ApiGatewayMethodMePost": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "POST",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceMe"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "ApiKeyRequired": false,
-        "AuthorizationType": "CUSTOM",
-        "AuthorizerId": {
-          "Ref": "AuthorizerApiGatewayAuthorizer"
-        },
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "MeLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": [],
-        "RequestValidatorId": {
-          "Ref": "ApiGatewayPesaserverlessbackendRequestValidator"
-        },
-        "RequestModels": {
-          "application/json": {
-            "Ref": "ApiGatewayMethodMePostApplicationJsonModel"
-          }
-        }
-      },
-      "DependsOn": "AuthorizerApiGatewayAuthorizer"
-    },
-    "ApiGatewayPesaserverlessbackendRequestValidator": {
-      "Type": "AWS::ApiGateway::RequestValidator",
-      "Properties": {
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "ValidateRequestBody": true,
-        "ValidateRequestParameters": true,
-        "Name": "pesa-serverless-backend-dev | Validate request body and querystring parameters"
-      }
-    },
-    "ApiGatewayMethodMePostApplicationJsonModel": {
-      "Type": "AWS::ApiGateway::Model",
-      "Properties": {
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "ContentType": "application/json",
-        "Schema": {
-          "type": "object",
-          "properties": {
-            "displayName": {
-              "type": "string"
-            },
-            "email": {
-              "type": "string"
-            },
-            "photoURL": {
-              "type": "string"
-            },
-            "phoneNumber": {
-              "type": "string"
-            },
-            "uid": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "displayName",
-            "email",
-            "uid"
-          ]
-        }
-      }
-    },
     "AuthorizerApiGatewayAuthorizer": {
       "Type": "AWS::ApiGateway::Authorizer",
       "Properties": {
@@ -615,7 +411,7 @@
         "Type": "TOKEN"
       }
     },
-    "ApiGatewayDeployment1665599600843": {
+    "ApiGatewayDeployment1665703088292": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -625,10 +421,7 @@
       },
       "DependsOn": [
         "ApiGatewayMethodMeOptions",
-        "ApiGatewayMethodMeIdVarOptions",
-        "ApiGatewayMethodMeGet",
-        "ApiGatewayMethodMeIdVarGet",
-        "ApiGatewayMethodMePost"
+        "ApiGatewayMethodMeGet"
       ]
     },
     "MeLambdaPermissionApiGateway": {
@@ -718,7 +511,7 @@
     "MeLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "MeLambdaVersion8nQJ65ZpLiAYZRljA7o8IB9WS4Cu1RRdUdkmvl14"
+        "Ref": "MeLambdaVersionwWgGRHH2LnsCpGIhM8bSco7itkfygc8O4RiGvlUuAHU"
       },
       "Export": {
         "Name": "sls-pesa-serverless-backend-dev-MeLambdaFunctionQualifiedArn"
@@ -727,7 +520,7 @@
     "AuthorizerLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AuthorizerLambdaVersionVP0gyLrhQR7e6boxOUOpN5oR6i5g4edF9j5IRXu8A"
+        "Ref": "AuthorizerLambdaVersionjTFqCEuF632ksqI1xpscKLGjoPqwpA4XltWjSuBI"
       },
       "Export": {
         "Name": "sls-pesa-serverless-backend-dev-AuthorizerLambdaFunctionQualifiedArn"
