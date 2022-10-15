@@ -1,7 +1,11 @@
 import { db, getDBInstance } from '@db/db';
-import { formatJSONResponse, internalServerError } from '@libs/api-gateway';
-import { middyfy } from '@libs/lambda';
+import {
+	formatJSONResponse,
+	internalServerError,
+} from '@shared/libs/api-gateway';
+import { middyfy } from '@shared/libs/lambda';
 import { APIGatewayProxyHandler } from 'aws-lambda';
+import { UpcomingEvent, UserInfo } from './interfaces/me-response';
 
 let DB: any;
 
@@ -27,6 +31,7 @@ const me: APIGatewayProxyHandler = async (event) => {
 				throw new Error('Method not supported');
 		}
 	} catch (error) {
+		console.log('error 1: ', error);
 		return internalServerError({
 			message: error.message,
 		});
@@ -37,7 +42,7 @@ const me: APIGatewayProxyHandler = async (event) => {
 
 const handleGet = async (uid: string, DB: db) => {
 	try {
-		const me = await DB.player.findByPk(uid, {
+		const userInfo: UserInfo = await DB.player.findByPk(uid, {
 			attributes: [
 				'uid',
 				'displayName',
@@ -75,9 +80,9 @@ const handleGet = async (uid: string, DB: db) => {
 			],
 		});
 
-		if (!me) throw new Error('User Session info not found.');
+		if (!userInfo) throw new Error('User Session info not found.');
 
-		const upcomingEvents = await DB.event.findAll({
+		const upcomingEvents: UpcomingEvent = await DB.event.findAll({
 			attributes: [
 				'id',
 				'name',
@@ -128,13 +133,13 @@ const handleGet = async (uid: string, DB: db) => {
 			],
 		});
 
-
 		return formatJSONResponse({
 			message: 'User Session info found.',
-			userInfo: me,
+			userInfo,
 			upcomingEvents,
 		});
 	} catch (error) {
+		console.log('error 2: ', error);
 		return internalServerError({
 			message: error.message,
 		});

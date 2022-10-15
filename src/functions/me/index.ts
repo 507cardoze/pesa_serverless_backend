@@ -1,4 +1,4 @@
-import { handlerPath } from '@libs/handler-resolver';
+import { handlerPath } from '@shared/libs/handler-resolver';
 
 export default {
 	handler: `${handlerPath(__dirname)}/handler.main`,
@@ -18,6 +18,23 @@ export default {
 						'X-Amz-Security-Token',
 						'X-Amz-User-Agent',
 					],
+				},
+				summary: 'User Profile Information',
+				description: 'Get the user profile information',
+				swaggerTags: ['Logged User'],
+				responseData: {
+					200: {
+						description: 'Success',
+						bodyType: 'UserInfoResponse',
+					},
+					403: {
+						description: 'Forbidden',
+						bodyType: 'ErrorResponse',
+					},
+					500: {
+						description: 'internalServerError',
+						bodyType: 'ErrorResponse',
+					},
 				},
 				authorizer: {
 					name: 'authorizer',
