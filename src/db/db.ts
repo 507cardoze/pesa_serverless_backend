@@ -16,7 +16,7 @@ import { invitationAssociation } from '@db/associate/invitation';
 import { videoGameHardwareAssociation } from '@db/associate/video-game-hardware';
 import { initGameMode, seedGameMode } from '@db/models/game-mode';
 import { initEvent, seedEvent } from '@db/models/event';
-import { eventAssociation } from './associate/event';
+import { eventAssociation } from '@db/associate/event';
 import { initGame, seedGame } from '@db/models/game';
 import { initMetric, seedMetric } from '@db/models/metric';
 import { initMetricType, seedMetricType } from '@db/models/metric-type';
@@ -25,6 +25,7 @@ import { gameAssociation } from '@db/associate/game';
 import { metricAssociation } from '@db/associate/metric';
 import { initGamePlayer, seedGamePlayer } from '@db/models/game-player';
 import { initRole, seedRole } from '@db/models/role';
+import { initInscription, seedInscription } from '@db/models/inscription';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
@@ -43,6 +44,7 @@ export class db implements dbInterface {
 	metricKey: any;
 	gamePlayer: any;
 	role: any;
+	inscription: any;
 
 	constructor() {
 		this.sequelize = new Sequelize(
@@ -79,6 +81,7 @@ export class db implements dbInterface {
 		initMetricKey(this.sequelize);
 		initGamePlayer(this.sequelize);
 		initRole(this.sequelize);
+		initInscription(this.sequelize);
 		this.player = this.sequelize.models.player;
 		this.team = this.sequelize.models.team;
 		this.role = this.sequelize.models.role;
@@ -94,6 +97,7 @@ export class db implements dbInterface {
 		this.metricType = this.sequelize.models.metricType;
 		this.metricKey = this.sequelize.models.metricKey;
 		this.metric = this.sequelize.models.metric;
+		this.inscription = this.sequelize.models.inscription;
 	}
 
 	async associate() {
@@ -121,6 +125,26 @@ export class db implements dbInterface {
 		await seedMetricType(this);
 		await seedMetricKey(this);
 		await seedMetric(this);
+		await seedInscription(this);
+	}
+
+	async async() {
+		try {
+			//Create associations
+			await this.associate();
+
+			//Sync DB
+			try {
+				await this.sequelize.sync({ force: true });
+				//seed database
+				await this.seed();
+				console.log('Database & tables created!');
+			} catch (error) {
+				console.error(`DB Sequelize Connection Failed: ${error}`);
+			}
+		} catch (error) {
+			console.error('Unable to connect to the database:', error);
+		}
 	}
 
 	async authenticate() {
@@ -128,15 +152,10 @@ export class db implements dbInterface {
 			//Create associations
 			await this.associate();
 
-			//Sync DB
-			try {
-				await this.sequelize.sync();
-				console.log('Database & tables created!');
-			} catch (error) {
-				console.error(`DB Sequelize Connection Failed: ${error}`);
-			}
+			await this.sequelize.authenticate();
+			console.log('Connection has been established successfully.');
 		} catch (error) {
-			console.error('Unable to connect to the database:', error);
+			console.error(`DB Sequelize Connection Failed: ${error}`);
 		}
 	}
 
@@ -150,8 +169,11 @@ export class db implements dbInterface {
 }
 
 export const getDBInstance = async () => {
+	const isOffline = Boolean(process.env.IS_OFFLINE) ? true : false;
+
 	const DB = new db();
-	await DB.authenticate();
-	await DB.seed();
+
+	isOffline ? await DB.async() : await DB.authenticate();
+
 	return DB;
 };
