@@ -13,6 +13,13 @@ export const EVENT_STUBS: Array<
 		| 'bannerUrl'
 		| 'videoGameId'
 		| 'gameModeId'
+		| 'entryCost'
+		| 'inscripInitDate'
+		| 'inscripEndDate'
+		| 'eventInitDate'
+		| 'eventEndDate'
+		| 'maxEntry'
+		| 'additionalInfo'
 	>
 > = [
 	{
@@ -26,6 +33,11 @@ export const EVENT_STUBS: Array<
 		bannerUrl: 'https://www.google.com',
 		videoGameId: '7b4bfd14-4a3e-11ed-b878-0242ac120002',
 		gameModeId: 'f15dd444-4a68-11ed-b878-0242ac120002',
+		entryCost: 0,
+		eventInitDate: new Date(),
+		eventEndDate: new Date(),
+		maxEntry: 25,
+		additionalInfo: 'Gratis',
 	},
 	{
 		id: 'd0c073e4-4a73-11ed-b878-0242ac120002',
@@ -38,5 +50,10 @@ export const EVENT_STUBS: Array<
 		bannerUrl: 'https://www.google.com',
 		videoGameId: '7fa6cf2e-4a3e-11ed-b878-0242ac120002',
 		gameModeId: 'f733c23e-4a68-11ed-b878-0242ac120002',
+		entryCost: 500,
+		eventInitDate: new Date(),
+		eventEndDate: new Date(),
+		maxEntry: 15,
+		additionalInfo: 'No es gratis dude!',
 	},
 ];

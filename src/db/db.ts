@@ -25,10 +25,11 @@ import { gameAssociation } from '@db/associate/game';
 import { metricAssociation } from '@db/associate/metric';
 import { initGamePlayer, seedGamePlayer } from '@db/models/game-player';
 import { initRole, seedRole } from '@db/models/role';
+import { initInscription, seedInscription } from '@db/models/inscription';
 
 export class db implements dbInterface {
 	sequelize: Sequelize;
-	player;
+	player: any;
 	team: any;
 	roster: any;
 	invitation: any;
@@ -43,6 +44,7 @@ export class db implements dbInterface {
 	metricKey: any;
 	gamePlayer: any;
 	role: any;
+	inscription: any;
 
 	constructor() {
 		this.sequelize = new Sequelize(
@@ -79,6 +81,7 @@ export class db implements dbInterface {
 		initMetricKey(this.sequelize);
 		initGamePlayer(this.sequelize);
 		initRole(this.sequelize);
+		initInscription(this.sequelize);
 		this.player = this.sequelize.models.player;
 		this.team = this.sequelize.models.team;
 		this.role = this.sequelize.models.role;
@@ -94,6 +97,7 @@ export class db implements dbInterface {
 		this.metricType = this.sequelize.models.metricType;
 		this.metricKey = this.sequelize.models.metricKey;
 		this.metric = this.sequelize.models.metric;
+		this.inscription = this.sequelize.models.inscription;
 	}
 
 	async associate() {
@@ -121,6 +125,7 @@ export class db implements dbInterface {
 		await seedMetricType(this);
 		await seedMetricKey(this);
 		await seedMetric(this);
+		await seedInscription(this);
 	}
 
 	async async() {
@@ -130,7 +135,7 @@ export class db implements dbInterface {
 
 			//Sync DB
 			try {
-				await this.sequelize.sync();
+				await this.sequelize.sync({ force: true });
 				//seed database
 				await this.seed();
 				console.log('Database & tables created!');

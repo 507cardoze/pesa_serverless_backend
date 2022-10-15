@@ -3,7 +3,14 @@ import { Player } from '@db/models/player';
 export const PLAYER_STUB: Array<
 	Pick<
 		Player,
-		'uid' | 'email' | 'displayName' | 'photoURL' | 'phoneNumber' | 'isAdmin'
+		| 'uid'
+		| 'email'
+		| 'displayName'
+		| 'photoURL'
+		| 'phoneNumber'
+		| 'isAdmin'
+		| 'nationality'
+		| 'nationalityPrefix'
 	>
 > = [
 	{
@@ -13,6 +20,8 @@ export const PLAYER_STUB: Array<
 		photoURL: null,
 		phoneNumber: '11 New Jersey, USA',
 		isAdmin: true,
+		nationality: 'United States',
+		nationalityPrefix: 'USA',
 	},
 	{
 		uid: '2',
@@ -21,6 +30,8 @@ export const PLAYER_STUB: Array<
 		photoURL: null,
 		phoneNumber: '22 Glasgow Street, UK',
 		isAdmin: false,
+		nationality: 'United Kingdom',
+		nationalityPrefix: 'UK',
 	},
 	{
 		uid: '3',
@@ -29,6 +40,8 @@ export const PLAYER_STUB: Array<
 		photoURL: '32 Yorkshire, UK',
 		phoneNumber: '32 Yorkshire, UK',
 		isAdmin: false,
+		nationality: 'Panama',
+		nationalityPrefix: 'PA',
 	},
 	{
 		uid: '4',
@@ -37,5 +50,7 @@ export const PLAYER_STUB: Array<
 		photoURL: null,
 		phoneNumber: '11A Sussex Road, UK',
 		isAdmin: false,
+		nationality: 'Costa Rica',
+		nationalityPrefix: 'CR',
 	},
 ];

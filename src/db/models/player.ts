@@ -9,6 +9,8 @@ export class Player extends Model {
 	public photoURL?: string | null;
 	public phoneNumber?: string | null;
 	public isAdmin: boolean;
+	public nationality: string | null;
+	public nationalityPrefix: string | null;
 }
 
 export async function initPlayer(sequelize: Sequelize) {
@@ -43,6 +45,14 @@ export async function initPlayer(sequelize: Sequelize) {
 				type: new DataTypes.BOOLEAN(),
 				allowNull: false,
 				defaultValue: false,
+			},
+			nationality: {
+				type: new DataTypes.STRING(256),
+				allowNull: true,
+			},
+			nationalityPrefix: {
+				type: new DataTypes.STRING(256),
+				allowNull: true,
 			},
 		},
 		{

@@ -32,7 +32,7 @@ const serverlessConfiguration: AWS = {
 		},
 	},
 	// import the function via paths
-	functions: { me, authorizer },
+	functions: { authorizer, me },
 	package: { individually: true },
 	custom: {
 		esbuild: {
@@ -44,6 +44,11 @@ const serverlessConfiguration: AWS = {
 			define: { 'require.resolve': undefined },
 			platform: 'node',
 			concurrency: 10,
+			packager: 'yarn',
+			packagePath: 'package.json',
+			packagerOptions: {
+				external: ['pg-native'],
+			},
 		},
 	},
 };

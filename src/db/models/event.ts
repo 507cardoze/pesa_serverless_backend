@@ -6,13 +6,18 @@ export class Event extends Model {
 	public id: string;
 	public name: string;
 	public description: string;
-	public inscripInitDate: Date;
-	public inscripEndDate: Date;
 	public isCoaching: boolean;
 	public isLive: boolean;
 	public bannerUrl: string;
 	public videoGameId: string;
 	public gameModeId: string;
+	public entryCost: number;
+	public inscripInitDate: Date;
+	public inscripEndDate: Date;
+	public eventInitDate: Date;
+	public eventEndDate: Date;
+	public maxEntry: number;
+	public additionalInfo: string;
 }
 
 export async function initEvent(sequelize: Sequelize) {
@@ -34,14 +39,6 @@ export async function initEvent(sequelize: Sequelize) {
 				type: new DataTypes.STRING(256),
 				allowNull: false,
 			},
-			inscripInitDate: {
-				type: new DataTypes.DATE(),
-				allowNull: false,
-			},
-			inscripEndDate: {
-				type: new DataTypes.DATE(),
-				allowNull: false,
-			},
 			isCoaching: {
 				type: new DataTypes.BOOLEAN(),
 				allowNull: false,
@@ -60,6 +57,34 @@ export async function initEvent(sequelize: Sequelize) {
 			},
 			gameModeId: {
 				type: new DataTypes.UUID(),
+				allowNull: false,
+			},
+			entryCost: {
+				type: new DataTypes.INTEGER(),
+				allowNull: false,
+			},
+			inscripInitDate: {
+				type: new DataTypes.DATE(),
+				allowNull: false,
+			},
+			inscripEndDate: {
+				type: new DataTypes.DATE(),
+				allowNull: false,
+			},
+			eventInitDate: {
+				type: new DataTypes.DATE(),
+				allowNull: false,
+			},
+			eventEndDate: {
+				type: new DataTypes.DATE(),
+				allowNull: false,
+			},
+			maxEntry: {
+				type: new DataTypes.INTEGER(),
+				allowNull: false,
+			},
+			additionalInfo: {
+				type: new DataTypes.STRING(256),
 				allowNull: false,
 			},
 		},
