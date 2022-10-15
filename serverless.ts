@@ -39,16 +39,13 @@ const serverlessConfiguration: AWS = {
 			bundle: true,
 			minify: true,
 			sourcemap: true,
-			exclude: ['aws-sdk'],
+			exclude: ['aws-sdk', 'pg-native'],
 			target: 'node14',
 			define: { 'require.resolve': undefined },
 			platform: 'node',
 			concurrency: 10,
 			packager: 'yarn',
 			packagePath: 'package.json',
-			packagerOptions: {
-				external: ['pg-native'],
-			},
 		},
 	},
 };
