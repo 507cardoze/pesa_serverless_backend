@@ -71,16 +71,16 @@
         }
       }
     },
-    "MeLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": "/aws/lambda/pesa-serverless-backend-dev-me"
-      }
-    },
     "AuthorizerLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
         "LogGroupName": "/aws/lambda/pesa-serverless-backend-dev-authorizer"
+      }
+    },
+    "MeLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/pesa-serverless-backend-dev-me"
       }
     },
     "IamRoleLambdaExecution": {
@@ -160,44 +160,6 @@
         }
       }
     },
-    "MeLambdaFunction": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Ref": "ServerlessDeploymentBucket"
-          },
-          "S3Key": "serverless/pesa-serverless-backend/dev/1665703090161-2022-10-13T23:18:10.161Z/me.zip"
-        },
-        "Handler": "src/functions/me/handler.main",
-        "Runtime": "nodejs14.x",
-        "FunctionName": "pesa-serverless-backend-dev-me",
-        "MemorySize": 1024,
-        "Timeout": 900,
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "FIREBASE_PROJECT_ID": "panamaesportacademy",
-            "FIREBASE_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDar4+tkYi33Hu2\\nWdUCxiJ68kxGEHAL5hvc0sZgVeA2DJW05UNx9CMcH9CmPDQDJjbINRCrWvlregQm\\nzPn8IgURHFX32+HcgUXmtOd6FP5r5qlFHcGl6/QTqnXFIeFcIsKPL+8nBaE66d39\\nPwdaKIfGGXhkCmtmiDO4j6+wNXrvVuagrdil1CaBrrwAXYLRjB2sWup+e4HOMVD2\\nlj+lyZCVqFvkqcyMQdHAHP49zEuKkqlt4Mo2nUxWogzQEvapXVI7oMWebw1hyuAA\\nJu4XkoBDqCOAE0OySuQYTCPzlwCJgBecVVaUOlUVLVQpaexcKp7bZzeXAezevkQW\\n2Kx6GDhPAgMBAAECggEAIOZoDkEmjsq7+KDRMXv6NKxT7001Hi/TTJ3lPG8PA/Km\\nvzKoD/Jz1HJbjfbhYwE9HVJmcfEw3wuEqQsOJ5w9Tj1eGE5bT4pJ/ZMv0/0T6HXT\\noiiqOTp4sPtkgRuUxQDHFosBRsn2X1+khx9pYsCq6ecWZq6ZSTFVM/9h+3eVntYZ\\nIrJYIPPJBzci/xpuIXG3HF2z+NwJWq7JeWsGRbYvesGBJ6E5Vu1gLXjAU8GKJV/y\\n4xNc13W/vsklufSrlseSHzIZprIZ6Onn7EKIXTrP3YAdeds8XOO/hnbVjxYbQ9tj\\nnf018IGaDVhRhqPPjjr26TUxWqT+MYE4mrrJNTYRmQKBgQD5QSTjUyY31sFQqVrN\\npPpEu1wgNETvYz4XSIyc5VOVFn/kbuIhw6LOudpYvoIgMuKeym0wEBQ3Ge284Vji\\nQy6b91SOhTX9D6emKStWQf7EALnU5//Hjqbll8DvEgeNA/zA6VyOJb7N5Q2EFlWV\\nWDUEP02G2AsESugfRNOH8hHQXQKBgQDgmqJ+lIkzrlMQdVfbKclwpimClnG/coCH\\nKSx2ReWtGDFFWGm/A7/YaYhZRR2d85NEKFbhCbDoLwhWQaoAk5/m4M4eckLamaXz\\nvYaf7sRAbeTN/keDBnHzNfTEt5N1PHMbdu3qFIB/rVCYM0ZyMMBxS8XGu7xjl6ay\\nCIAg/dpQmwKBgDkpvYH88cjgkZkkHdUHvvXAWlJwalbUVcsVMlpRJagNbus+mtHP\\ngikS6oZruoAT63ErT3s0VM6GPcWRkMbjTW8re9LrrgQJcRNkYbH4lKry16uCQWDM\\n0G3bLb4mTmECxxae7kETWvzxSPZAAQStJAuDUQ5Zwb0MSMvTBwgodflpAoGBAIyn\\nKdVdDWKo62mmImOkEnsSA3K85fS/Ls/1r9tNQFyahthnWql9HpnW1MUarEZq77FC\\nFc4NdJSiR3VE38JGsF80LsAQS997UtqFuJXVP18dsqhxcbUSxy9IfcTnNVe4iFkN\\nrEXnmuTZ01vM2HPQJeONUQh4Lqyrnn9lJWADuMC7AoGBAIlB2dp0aFwXWXVRTdTG\\nOPHsx4tHC/z7zQEBD9smgfRhgsObh0fywU451e5DP4vAqgGb63sDCQ1Q3Vk6bXCU\\nZjw6meW8TzHeMmpoHxwErfmmNZ4oz92sxQO9r156FThleT3dWW3NUWhSRZiS+mIT\\nQ5ECeKvy0baruJkMJuTOjVX4\\n-----END PRIVATE KEY-----\\n",
-            "FIREBASE_CLIENT_EMAIL": "firebase-adminsdk-yz4aw@panamaesportacademy.iam.gserviceaccount.com",
-            "PG_DB_HOST": "serverless-pesa.cr9bout85w1m.us-east-1.rds.amazonaws.com",
-            "PG_DB_PORT": "5432",
-            "PG_DB_NAME": "pesa_db",
-            "PG_DB_USER": "stpancar",
-            "PG_DB_PASSWORD": "m1ZCMLW91Cvuv4lkejL6"
-          }
-        },
-        "Role": {
-          "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
-            "Arn"
-          ]
-        }
-      },
-      "DependsOn": [
-        "MeLogGroup"
-      ]
-    },
     "AuthorizerLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -205,7 +167,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/pesa-serverless-backend/dev/1665703090161-2022-10-13T23:18:10.161Z/authorizer.zip"
+          "S3Key": "serverless/pesa-serverless-backend/dev/1665808894768-2022-10-15T04:41:34.768Z/authorizer.zip"
         },
         "Handler": "src/functions/authorizer/handler.main",
         "Runtime": "nodejs14.x",
@@ -236,14 +198,52 @@
         "AuthorizerLogGroup"
       ]
     },
-    "MeLambdaVersionwWgGRHH2LnsCpGIhM8bSco7itkfygc8O4RiGvlUuAHU": {
+    "MeLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/pesa-serverless-backend/dev/1665808894768-2022-10-15T04:41:34.768Z/me.zip"
+        },
+        "Handler": "src/functions/me/handler.main",
+        "Runtime": "nodejs14.x",
+        "FunctionName": "pesa-serverless-backend-dev-me",
+        "MemorySize": 1024,
+        "Timeout": 30,
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "FIREBASE_PROJECT_ID": "panamaesportacademy",
+            "FIREBASE_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDar4+tkYi33Hu2\\nWdUCxiJ68kxGEHAL5hvc0sZgVeA2DJW05UNx9CMcH9CmPDQDJjbINRCrWvlregQm\\nzPn8IgURHFX32+HcgUXmtOd6FP5r5qlFHcGl6/QTqnXFIeFcIsKPL+8nBaE66d39\\nPwdaKIfGGXhkCmtmiDO4j6+wNXrvVuagrdil1CaBrrwAXYLRjB2sWup+e4HOMVD2\\nlj+lyZCVqFvkqcyMQdHAHP49zEuKkqlt4Mo2nUxWogzQEvapXVI7oMWebw1hyuAA\\nJu4XkoBDqCOAE0OySuQYTCPzlwCJgBecVVaUOlUVLVQpaexcKp7bZzeXAezevkQW\\n2Kx6GDhPAgMBAAECggEAIOZoDkEmjsq7+KDRMXv6NKxT7001Hi/TTJ3lPG8PA/Km\\nvzKoD/Jz1HJbjfbhYwE9HVJmcfEw3wuEqQsOJ5w9Tj1eGE5bT4pJ/ZMv0/0T6HXT\\noiiqOTp4sPtkgRuUxQDHFosBRsn2X1+khx9pYsCq6ecWZq6ZSTFVM/9h+3eVntYZ\\nIrJYIPPJBzci/xpuIXG3HF2z+NwJWq7JeWsGRbYvesGBJ6E5Vu1gLXjAU8GKJV/y\\n4xNc13W/vsklufSrlseSHzIZprIZ6Onn7EKIXTrP3YAdeds8XOO/hnbVjxYbQ9tj\\nnf018IGaDVhRhqPPjjr26TUxWqT+MYE4mrrJNTYRmQKBgQD5QSTjUyY31sFQqVrN\\npPpEu1wgNETvYz4XSIyc5VOVFn/kbuIhw6LOudpYvoIgMuKeym0wEBQ3Ge284Vji\\nQy6b91SOhTX9D6emKStWQf7EALnU5//Hjqbll8DvEgeNA/zA6VyOJb7N5Q2EFlWV\\nWDUEP02G2AsESugfRNOH8hHQXQKBgQDgmqJ+lIkzrlMQdVfbKclwpimClnG/coCH\\nKSx2ReWtGDFFWGm/A7/YaYhZRR2d85NEKFbhCbDoLwhWQaoAk5/m4M4eckLamaXz\\nvYaf7sRAbeTN/keDBnHzNfTEt5N1PHMbdu3qFIB/rVCYM0ZyMMBxS8XGu7xjl6ay\\nCIAg/dpQmwKBgDkpvYH88cjgkZkkHdUHvvXAWlJwalbUVcsVMlpRJagNbus+mtHP\\ngikS6oZruoAT63ErT3s0VM6GPcWRkMbjTW8re9LrrgQJcRNkYbH4lKry16uCQWDM\\n0G3bLb4mTmECxxae7kETWvzxSPZAAQStJAuDUQ5Zwb0MSMvTBwgodflpAoGBAIyn\\nKdVdDWKo62mmImOkEnsSA3K85fS/Ls/1r9tNQFyahthnWql9HpnW1MUarEZq77FC\\nFc4NdJSiR3VE38JGsF80LsAQS997UtqFuJXVP18dsqhxcbUSxy9IfcTnNVe4iFkN\\nrEXnmuTZ01vM2HPQJeONUQh4Lqyrnn9lJWADuMC7AoGBAIlB2dp0aFwXWXVRTdTG\\nOPHsx4tHC/z7zQEBD9smgfRhgsObh0fywU451e5DP4vAqgGb63sDCQ1Q3Vk6bXCU\\nZjw6meW8TzHeMmpoHxwErfmmNZ4oz92sxQO9r156FThleT3dWW3NUWhSRZiS+mIT\\nQ5ECeKvy0baruJkMJuTOjVX4\\n-----END PRIVATE KEY-----\\n",
+            "FIREBASE_CLIENT_EMAIL": "firebase-adminsdk-yz4aw@panamaesportacademy.iam.gserviceaccount.com",
+            "PG_DB_HOST": "serverless-pesa.cr9bout85w1m.us-east-1.rds.amazonaws.com",
+            "PG_DB_PORT": "5432",
+            "PG_DB_NAME": "pesa_db",
+            "PG_DB_USER": "stpancar",
+            "PG_DB_PASSWORD": "m1ZCMLW91Cvuv4lkejL6"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "MeLogGroup"
+      ]
+    },
+    "MeLambdaVersionrM2UXB1j8LJo0KklkU97EgbqEOTOjLmDxLAzw8zIYK0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "MeLambdaFunction"
         },
-        "CodeSha256": "G84CKRR2EJ8ICd6uwULGH9YxHIGcFg6xHhop9fyLhdw="
+        "CodeSha256": "ZCEOMeTnfH5cs4k+/tlf/MzQCPIsv26sPAQHvr99rPg="
       }
     },
     "AuthorizerLambdaVersionjTFqCEuF632ksqI1xpscKLGjoPqwpA4XltWjSuBI": {
@@ -411,7 +411,7 @@
         "Type": "TOKEN"
       }
     },
-    "ApiGatewayDeployment1665703088292": {
+    "ApiGatewayDeployment1665808893248": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -511,7 +511,7 @@
     "MeLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "MeLambdaVersionwWgGRHH2LnsCpGIhM8bSco7itkfygc8O4RiGvlUuAHU"
+        "Ref": "MeLambdaVersionrM2UXB1j8LJo0KklkU97EgbqEOTOjLmDxLAzw8zIYK0"
       },
       "Export": {
         "Name": "sls-pesa-serverless-backend-dev-MeLambdaFunctionQualifiedArn"

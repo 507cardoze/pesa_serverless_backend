@@ -56,6 +56,11 @@ const handleGet = async (uid: string, DB: db) => {
 							attributes: ['id', 'name'],
 						},
 					],
+					exclude: [
+						{
+							model: DB.inscription,
+						},
+					],
 				},
 				{
 					model: DB.invitation,
@@ -98,8 +103,31 @@ const handleGet = async (uid: string, DB: db) => {
 						},
 					],
 				},
+				{
+					model: DB.player,
+					attributes: [
+						'uid',
+						'displayName',
+						'email',
+						'phoneNumber',
+						'photoURL',
+						'isAdmin',
+					],
+					as: 'playersInscriptions',
+				},
+				{
+					model: DB.team,
+					attributes: ['id', 'displayName', 'logoUrl'],
+					as: 'teamsInscriptions',
+					include: [
+						{
+							model: DB.player,
+						},
+					],
+				},
 			],
 		});
+
 
 		return formatJSONResponse({
 			message: 'User Session info found.',
