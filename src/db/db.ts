@@ -134,16 +134,12 @@ export class db implements dbInterface {
 			await this.associate();
 
 			//Sync DB
-			try {
-				await this.sequelize.sync({ force: true });
-				//seed database
-				await this.seed();
-				console.log('Database & tables created!');
-			} catch (error) {
-				console.error(`DB Sequelize Connection Failed: ${error}`);
-			}
+			await this.sequelize.sync();
+			//seed database
+			//await this.seed();
+			console.log('Database & tables created!');
 		} catch (error) {
-			console.error('Unable to connect to the database:', error);
+			console.error(`DB Sequelize Connection Failed: ${error}`);
 		}
 	}
 

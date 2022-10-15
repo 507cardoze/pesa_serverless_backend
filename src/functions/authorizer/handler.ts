@@ -1,8 +1,8 @@
-import { generateIamPolicy, initializeSdk } from '@libs/firebase';
-import { middyfy } from '@libs/lambda';
+import { generateIamPolicy, initializeSdk } from '@shared/libs/firebase';
+import { middyfy } from '@shared/libs/lambda';
 import admin from 'firebase-admin';
 import { APIGatewayTokenAuthorizerHandler, AuthResponse } from 'aws-lambda';
-import { getAuthToken } from '@libs/get-authtoken';
+import { getAuthToken } from '@shared/libs/get-authtoken';
 import { MOCK_USER_DATA } from './local-user-data';
 
 const authorizer: APIGatewayTokenAuthorizerHandler = async (
