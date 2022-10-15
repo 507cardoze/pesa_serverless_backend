@@ -19,22 +19,20 @@ export const initializeSdk = () => {
 export const generateIamPolicy = (
 	effect: string,
 	resource: string,
-	data?: DecodedIdToken
+	sub?: string
 ): {
 	principalId: string;
-	user: DecodedIdToken | undefined;
 	policyDocument: PolicyDocument;
 } => {
 	const authResponse = {
-		principalId: data?.sub ?? '',
-		user: data,
+		principalId: sub || 'user',
 		policyDocument: {
 			Version: '2012-10-17',
 			Statement: [
 				{
 					Action: 'execute-api:Invoke',
 					Effect: effect,
-					Resource: resource,
+					Resource: [resource],
 				},
 			],
 		},

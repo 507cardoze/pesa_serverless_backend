@@ -55,7 +55,7 @@ export class db implements dbInterface {
 				host: process.env.PG_DB_HOST ?? '',
 				dialect: 'postgres',
 				dialectModule: pg,
-				logging: console.log,
+				logging: process.env.IS_OFFLINE ? console.log : false,
 				pool: {
 					max: 2,
 					min: 0,

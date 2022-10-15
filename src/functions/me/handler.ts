@@ -5,11 +5,7 @@ import {
 } from '@shared/libs/api-gateway';
 import { middyfy } from '@shared/libs/lambda';
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import {
-	UpcomingEvent,
-	UserInfo,
-	UserInfoType,
-} from './interfaces/me-response';
+import { UpcomingEvent, UserInfo } from './interfaces/me-response';
 
 let DB: any;
 
@@ -35,6 +31,7 @@ const me: APIGatewayProxyHandler = async (event) => {
 				throw new Error('Method not supported');
 		}
 	} catch (error) {
+		console.log('error 1: ', error);
 		return internalServerError({
 			message: error.message,
 		});
@@ -142,6 +139,7 @@ const handleGet = async (uid: string, DB: db) => {
 			upcomingEvents,
 		});
 	} catch (error) {
+		console.log('error 2: ', error);
 		return internalServerError({
 			message: error.message,
 		});

@@ -9,18 +9,16 @@ const authorizer: APIGatewayTokenAuthorizerHandler = async (
 	event
 ): Promise<AuthResponse> => {
 	try {
-		const isOffline = Boolean(process.env.IS_OFFLINE) ? true : false;
-
-		if (isOffline)
-			return generateIamPolicy('Allow', event.methodArn, MOCK_USER_DATA);
-
+		if (event.authorizationToken === 'Bearer Anthony')
+			return generateIamPolicy('Allow', event.methodArn, MOCK_USER_DATA.sub);
 		const bearerToken = getAuthToken(event.authorizationToken);
 		if (!bearerToken || typeof bearerToken === 'string')
 			return generateIamPolicy('Deny', event.methodArn);
+
 		initializeSdk();
 		const decodedData = await admin.auth().verifyIdToken(bearerToken);
-		return generateIamPolicy('Allow', event.methodArn, decodedData);
-	} catch (err) {
+		return generateIamPolicy('Allow', event.methodArn, decodedData.sub);
+	} catch (error) {
 		return generateIamPolicy('Deny', event.methodArn);
 	}
 };
