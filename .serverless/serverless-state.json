@@ -166,6 +166,18 @@
                             "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/pesa-serverless-backend-dev*:*:*"
                           }
                         ]
+                      },
+                      {
+                        "Effect": "Deny",
+                        "Action": "logs:PutLogEvents",
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/pesa-serverless-backend-dev-swagger-ui:*"
+                          },
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/pesa-serverless-backend-dev-swagger-json:*"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -194,7 +206,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/pesa-serverless-backend/dev/1665808894768-2022-10-15T04:41:34.768Z/authorizer.zip"
+                "S3Key": "serverless/pesa-serverless-backend/dev/1665866140943-2022-10-15T20:35:40.943Z/authorizer.zip"
               },
               "Handler": "src/functions/authorizer/handler.main",
               "Runtime": "nodejs14.x",
@@ -232,7 +244,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/pesa-serverless-backend/dev/1665808894768-2022-10-15T04:41:34.768Z/me.zip"
+                "S3Key": "serverless/pesa-serverless-backend/dev/1665866140943-2022-10-15T20:35:40.943Z/me.zip"
               },
               "Handler": "src/functions/me/handler.main",
               "Runtime": "nodejs14.x",
@@ -263,24 +275,114 @@
               "MeLogGroup"
             ]
           },
-          "MeLambdaVersionrM2UXB1j8LJo0KklkU97EgbqEOTOjLmDxLAzw8zIYK0": {
+          "SwaggerUILambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/pesa-serverless-backend/dev/1665866140943-2022-10-15T20:35:40.943Z/swaggerUI.zip"
+              },
+              "Handler": "swagger/swagger-html.handler",
+              "Runtime": "nodejs14.x",
+              "FunctionName": "pesa-serverless-backend-dev-swagger-ui",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                  "FIREBASE_PROJECT_ID": "panamaesportacademy",
+                  "FIREBASE_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDar4+tkYi33Hu2\\nWdUCxiJ68kxGEHAL5hvc0sZgVeA2DJW05UNx9CMcH9CmPDQDJjbINRCrWvlregQm\\nzPn8IgURHFX32+HcgUXmtOd6FP5r5qlFHcGl6/QTqnXFIeFcIsKPL+8nBaE66d39\\nPwdaKIfGGXhkCmtmiDO4j6+wNXrvVuagrdil1CaBrrwAXYLRjB2sWup+e4HOMVD2\\nlj+lyZCVqFvkqcyMQdHAHP49zEuKkqlt4Mo2nUxWogzQEvapXVI7oMWebw1hyuAA\\nJu4XkoBDqCOAE0OySuQYTCPzlwCJgBecVVaUOlUVLVQpaexcKp7bZzeXAezevkQW\\n2Kx6GDhPAgMBAAECggEAIOZoDkEmjsq7+KDRMXv6NKxT7001Hi/TTJ3lPG8PA/Km\\nvzKoD/Jz1HJbjfbhYwE9HVJmcfEw3wuEqQsOJ5w9Tj1eGE5bT4pJ/ZMv0/0T6HXT\\noiiqOTp4sPtkgRuUxQDHFosBRsn2X1+khx9pYsCq6ecWZq6ZSTFVM/9h+3eVntYZ\\nIrJYIPPJBzci/xpuIXG3HF2z+NwJWq7JeWsGRbYvesGBJ6E5Vu1gLXjAU8GKJV/y\\n4xNc13W/vsklufSrlseSHzIZprIZ6Onn7EKIXTrP3YAdeds8XOO/hnbVjxYbQ9tj\\nnf018IGaDVhRhqPPjjr26TUxWqT+MYE4mrrJNTYRmQKBgQD5QSTjUyY31sFQqVrN\\npPpEu1wgNETvYz4XSIyc5VOVFn/kbuIhw6LOudpYvoIgMuKeym0wEBQ3Ge284Vji\\nQy6b91SOhTX9D6emKStWQf7EALnU5//Hjqbll8DvEgeNA/zA6VyOJb7N5Q2EFlWV\\nWDUEP02G2AsESugfRNOH8hHQXQKBgQDgmqJ+lIkzrlMQdVfbKclwpimClnG/coCH\\nKSx2ReWtGDFFWGm/A7/YaYhZRR2d85NEKFbhCbDoLwhWQaoAk5/m4M4eckLamaXz\\nvYaf7sRAbeTN/keDBnHzNfTEt5N1PHMbdu3qFIB/rVCYM0ZyMMBxS8XGu7xjl6ay\\nCIAg/dpQmwKBgDkpvYH88cjgkZkkHdUHvvXAWlJwalbUVcsVMlpRJagNbus+mtHP\\ngikS6oZruoAT63ErT3s0VM6GPcWRkMbjTW8re9LrrgQJcRNkYbH4lKry16uCQWDM\\n0G3bLb4mTmECxxae7kETWvzxSPZAAQStJAuDUQ5Zwb0MSMvTBwgodflpAoGBAIyn\\nKdVdDWKo62mmImOkEnsSA3K85fS/Ls/1r9tNQFyahthnWql9HpnW1MUarEZq77FC\\nFc4NdJSiR3VE38JGsF80LsAQS997UtqFuJXVP18dsqhxcbUSxy9IfcTnNVe4iFkN\\nrEXnmuTZ01vM2HPQJeONUQh4Lqyrnn9lJWADuMC7AoGBAIlB2dp0aFwXWXVRTdTG\\nOPHsx4tHC/z7zQEBD9smgfRhgsObh0fywU451e5DP4vAqgGb63sDCQ1Q3Vk6bXCU\\nZjw6meW8TzHeMmpoHxwErfmmNZ4oz92sxQO9r156FThleT3dWW3NUWhSRZiS+mIT\\nQ5ECeKvy0baruJkMJuTOjVX4\\n-----END PRIVATE KEY-----\\n",
+                  "FIREBASE_CLIENT_EMAIL": "firebase-adminsdk-yz4aw@panamaesportacademy.iam.gserviceaccount.com",
+                  "PG_DB_HOST": "serverless-pesa.cr9bout85w1m.us-east-1.rds.amazonaws.com",
+                  "PG_DB_PORT": "5432",
+                  "PG_DB_NAME": "pesa_db",
+                  "PG_DB_USER": "stpancar",
+                  "PG_DB_PASSWORD": "m1ZCMLW91Cvuv4lkejL6"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            }
+          },
+          "SwaggerJSONLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/pesa-serverless-backend/dev/1665866140943-2022-10-15T20:35:40.943Z/swaggerJSON.zip"
+              },
+              "Handler": "swagger/swagger-json.handler",
+              "Runtime": "nodejs14.x",
+              "FunctionName": "pesa-serverless-backend-dev-swagger-json",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                  "FIREBASE_PROJECT_ID": "panamaesportacademy",
+                  "FIREBASE_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDar4+tkYi33Hu2\\nWdUCxiJ68kxGEHAL5hvc0sZgVeA2DJW05UNx9CMcH9CmPDQDJjbINRCrWvlregQm\\nzPn8IgURHFX32+HcgUXmtOd6FP5r5qlFHcGl6/QTqnXFIeFcIsKPL+8nBaE66d39\\nPwdaKIfGGXhkCmtmiDO4j6+wNXrvVuagrdil1CaBrrwAXYLRjB2sWup+e4HOMVD2\\nlj+lyZCVqFvkqcyMQdHAHP49zEuKkqlt4Mo2nUxWogzQEvapXVI7oMWebw1hyuAA\\nJu4XkoBDqCOAE0OySuQYTCPzlwCJgBecVVaUOlUVLVQpaexcKp7bZzeXAezevkQW\\n2Kx6GDhPAgMBAAECggEAIOZoDkEmjsq7+KDRMXv6NKxT7001Hi/TTJ3lPG8PA/Km\\nvzKoD/Jz1HJbjfbhYwE9HVJmcfEw3wuEqQsOJ5w9Tj1eGE5bT4pJ/ZMv0/0T6HXT\\noiiqOTp4sPtkgRuUxQDHFosBRsn2X1+khx9pYsCq6ecWZq6ZSTFVM/9h+3eVntYZ\\nIrJYIPPJBzci/xpuIXG3HF2z+NwJWq7JeWsGRbYvesGBJ6E5Vu1gLXjAU8GKJV/y\\n4xNc13W/vsklufSrlseSHzIZprIZ6Onn7EKIXTrP3YAdeds8XOO/hnbVjxYbQ9tj\\nnf018IGaDVhRhqPPjjr26TUxWqT+MYE4mrrJNTYRmQKBgQD5QSTjUyY31sFQqVrN\\npPpEu1wgNETvYz4XSIyc5VOVFn/kbuIhw6LOudpYvoIgMuKeym0wEBQ3Ge284Vji\\nQy6b91SOhTX9D6emKStWQf7EALnU5//Hjqbll8DvEgeNA/zA6VyOJb7N5Q2EFlWV\\nWDUEP02G2AsESugfRNOH8hHQXQKBgQDgmqJ+lIkzrlMQdVfbKclwpimClnG/coCH\\nKSx2ReWtGDFFWGm/A7/YaYhZRR2d85NEKFbhCbDoLwhWQaoAk5/m4M4eckLamaXz\\nvYaf7sRAbeTN/keDBnHzNfTEt5N1PHMbdu3qFIB/rVCYM0ZyMMBxS8XGu7xjl6ay\\nCIAg/dpQmwKBgDkpvYH88cjgkZkkHdUHvvXAWlJwalbUVcsVMlpRJagNbus+mtHP\\ngikS6oZruoAT63ErT3s0VM6GPcWRkMbjTW8re9LrrgQJcRNkYbH4lKry16uCQWDM\\n0G3bLb4mTmECxxae7kETWvzxSPZAAQStJAuDUQ5Zwb0MSMvTBwgodflpAoGBAIyn\\nKdVdDWKo62mmImOkEnsSA3K85fS/Ls/1r9tNQFyahthnWql9HpnW1MUarEZq77FC\\nFc4NdJSiR3VE38JGsF80LsAQS997UtqFuJXVP18dsqhxcbUSxy9IfcTnNVe4iFkN\\nrEXnmuTZ01vM2HPQJeONUQh4Lqyrnn9lJWADuMC7AoGBAIlB2dp0aFwXWXVRTdTG\\nOPHsx4tHC/z7zQEBD9smgfRhgsObh0fywU451e5DP4vAqgGb63sDCQ1Q3Vk6bXCU\\nZjw6meW8TzHeMmpoHxwErfmmNZ4oz92sxQO9r156FThleT3dWW3NUWhSRZiS+mIT\\nQ5ECeKvy0baruJkMJuTOjVX4\\n-----END PRIVATE KEY-----\\n",
+                  "FIREBASE_CLIENT_EMAIL": "firebase-adminsdk-yz4aw@panamaesportacademy.iam.gserviceaccount.com",
+                  "PG_DB_HOST": "serverless-pesa.cr9bout85w1m.us-east-1.rds.amazonaws.com",
+                  "PG_DB_PORT": "5432",
+                  "PG_DB_NAME": "pesa_db",
+                  "PG_DB_USER": "stpancar",
+                  "PG_DB_PASSWORD": "m1ZCMLW91Cvuv4lkejL6"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            }
+          },
+          "SwaggerJSONLambdaVersionO7ODjxNdd9DkDgIYGlZfMFOXFU43fk55AyQTKps": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "SwaggerJSONLambdaFunction"
+              },
+              "CodeSha256": "akuk96xhr3xn8FFi66j9ltXZXZ0yhTpl6SFmWQFSuGs="
+            }
+          },
+          "SwaggerUILambdaVersionojRTm7pfSZKZS36seOCv4hwxSslGIXjfAS4RCCuI": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "SwaggerUILambdaFunction"
+              },
+              "CodeSha256": "e7zszlBcR1wDu/yY949PM0dkO4Ny2wYDgG+a+QG2gt8="
+            }
+          },
+          "MeLambdaVersionS0tvOjb1plRTy2CNayLOsiC1xGsNM8dv4SKcsE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "MeLambdaFunction"
               },
-              "CodeSha256": "ZCEOMeTnfH5cs4k+/tlf/MzQCPIsv26sPAQHvr99rPg="
+              "CodeSha256": "Q8eRj61zrdboiqerpt4a7QwimpNg+3/rVEeEH7Vkvr0="
             }
           },
-          "AuthorizerLambdaVersionjTFqCEuF632ksqI1xpscKLGjoPqwpA4XltWjSuBI": {
+          "AuthorizerLambdaVersionAphJzS2kPT0OT1lthoyM33cagMVYCkXSro8c0ZCwG7Q": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthorizerLambdaFunction"
               },
-              "CodeSha256": "p8ettItJF5r6+3bnF3R4nu3r9d2FKruS22CilF7hFXc="
+              "CodeSha256": "rufDg6fTVP0BThg8srH2rAHddopvdk6T9b9SQWAph74="
             }
           },
           "ApiGatewayRestApi": {
@@ -306,6 +408,36 @@
                 ]
               },
               "PathPart": "me",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceSwagger": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "swagger",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceSwaggerjson": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "swagger.json",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -403,6 +535,98 @@
             },
             "DependsOn": "AuthorizerApiGatewayAuthorizer"
           },
+          "ApiGatewayMethodSwaggerGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceSwagger"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "SwaggerUILambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "SwaggerUILambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodSwaggerjsonGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceSwaggerjson"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "SwaggerJSONLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "SwaggerJSONLambdaPermissionApiGateway"
+            ]
+          },
           "AuthorizerApiGatewayAuthorizer": {
             "Type": "AWS::ApiGateway::Authorizer",
             "Properties": {
@@ -438,7 +662,7 @@
               "Type": "TOKEN"
             }
           },
-          "ApiGatewayDeployment1665808893248": {
+          "ApiGatewayDeployment1665866137930": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -448,7 +672,9 @@
             },
             "DependsOn": [
               "ApiGatewayMethodMeOptions",
-              "ApiGatewayMethodMeGet"
+              "ApiGatewayMethodMeGet",
+              "ApiGatewayMethodSwaggerGet",
+              "ApiGatewayMethodSwaggerjsonGet"
             ]
           },
           "MeLambdaPermissionApiGateway": {
@@ -524,6 +750,80 @@
                 ]
               }
             }
+          },
+          "SwaggerUILambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "SwaggerUILambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "SwaggerJSONLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "SwaggerJSONLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
           }
         },
         "Outputs": {
@@ -535,10 +835,28 @@
               "Name": "sls-pesa-serverless-backend-dev-ServerlessDeploymentBucketName"
             }
           },
+          "SwaggerJSONLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "SwaggerJSONLambdaVersionO7ODjxNdd9DkDgIYGlZfMFOXFU43fk55AyQTKps"
+            },
+            "Export": {
+              "Name": "sls-pesa-serverless-backend-dev-SwaggerJSONLambdaFunctionQualifiedArn"
+            }
+          },
+          "SwaggerUILambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "SwaggerUILambdaVersionojRTm7pfSZKZS36seOCv4hwxSslGIXjfAS4RCCuI"
+            },
+            "Export": {
+              "Name": "sls-pesa-serverless-backend-dev-SwaggerUILambdaFunctionQualifiedArn"
+            }
+          },
           "MeLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "MeLambdaVersionrM2UXB1j8LJo0KklkU97EgbqEOTOjLmDxLAzw8zIYK0"
+              "Ref": "MeLambdaVersionS0tvOjb1plRTy2CNayLOsiC1xGsNM8dv4SKcsE"
             },
             "Export": {
               "Name": "sls-pesa-serverless-backend-dev-MeLambdaFunctionQualifiedArn"
@@ -547,7 +865,7 @@
           "AuthorizerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthorizerLambdaVersionjTFqCEuF632ksqI1xpscKLGjoPqwpA4XltWjSuBI"
+              "Ref": "AuthorizerLambdaVersionAphJzS2kPT0OT1lthoyM33cagMVYCkXSro8c0ZCwG7Q"
             },
             "Export": {
               "Name": "sls-pesa-serverless-backend-dev-AuthorizerLambdaFunctionQualifiedArn"
@@ -666,23 +984,29 @@
       "vpc": {}
     },
     "custom": {
+      "autoswagger": {
+        "typefiles": [
+          "./src/types/api-types.d.ts"
+        ],
+        "apiType": "http",
+        "basePath": "/dev",
+        "title": "Pesa Serverless Backend",
+        "generateSwaggerOnDeploy": true,
+        "apiKeyHeaders": [
+          "Authorization"
+        ]
+      },
       "esbuild": {
         "bundle": true,
         "minify": true,
-        "sourcemap": true,
         "exclude": [
           "aws-sdk",
           "pg-native"
-        ],
-        "target": "node14",
-        "define": {},
-        "platform": "node",
-        "concurrency": 10,
-        "packager": "yarn",
-        "packagePath": "package.json"
+        ]
       }
     },
     "plugins": [
+      "serverless-auto-swagger",
       "serverless-esbuild",
       "serverless-offline",
       "serverless-dotenv-plugin"
@@ -700,7 +1024,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "AuthorizerLambdaVersionjTFqCEuF632ksqI1xpscKLGjoPqwpA4XltWjSuBI"
+        "versionLogicalId": "AuthorizerLambdaVersionAphJzS2kPT0OT1lthoyM33cagMVYCkXSro8c0ZCwG7Q"
       },
       "me": {
         "handler": "src/functions/me/handler.main",
@@ -726,6 +1050,25 @@
                 ],
                 "allowCredentials": false
               },
+              "summary": "User Profile Information",
+              "description": "Get the user profile information",
+              "swaggerTags": [
+                "Logged User"
+              ],
+              "responseData": {
+                "200": {
+                  "description": "Success",
+                  "bodyType": "UserInfoResponse"
+                },
+                "403": {
+                  "description": "Forbidden",
+                  "bodyType": "ErrorResponse"
+                },
+                "500": {
+                  "description": "internalServerError",
+                  "bodyType": "ErrorResponse"
+                }
+              },
               "authorizer": {
                 "name": "authorizer",
                 "arn": {
@@ -747,7 +1090,51 @@
         "memory": 1024,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "MeLambdaVersionrM2UXB1j8LJo0KklkU97EgbqEOTOjLmDxLAzw8zIYK0"
+        "versionLogicalId": "MeLambdaVersionS0tvOjb1plRTy2CNayLOsiC1xGsNM8dv4SKcsE"
+      },
+      "swaggerUI": {
+        "name": "pesa-serverless-backend-dev-swagger-ui",
+        "handler": "swagger/swagger-html.handler",
+        "disableLogs": true,
+        "events": [
+          {
+            "http": {
+              "method": "get",
+              "path": "swagger",
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "package": {
+          "artifact": ".serverless/swaggerUI.zip"
+        },
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs14.x",
+        "vpc": {},
+        "versionLogicalId": "SwaggerUILambdaVersionojRTm7pfSZKZS36seOCv4hwxSslGIXjfAS4RCCuI"
+      },
+      "swaggerJSON": {
+        "name": "pesa-serverless-backend-dev-swagger-json",
+        "handler": "swagger/swagger-json.handler",
+        "disableLogs": true,
+        "events": [
+          {
+            "http": {
+              "method": "get",
+              "path": "swagger.json",
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "package": {
+          "artifact": ".serverless/swaggerJSON.zip"
+        },
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs14.x",
+        "vpc": {},
+        "versionLogicalId": "SwaggerJSONLambdaVersionO7ODjxNdd9DkDgIYGlZfMFOXFU43fk55AyQTKps"
       }
     },
     "configValidationMode": "warn",
@@ -763,7 +1150,12 @@
         "$ref": "$[\"service\"][\"provider\"]"
       },
       "functions": {
-        "$ref": "$[\"service\"][\"functions\"]"
+        "authorizer": {
+          "$ref": "$[\"service\"][\"functions\"][\"authorizer\"]"
+        },
+        "me": {
+          "$ref": "$[\"service\"][\"functions\"][\"me\"]"
+        }
       },
       "package": {
         "individually": true,
@@ -778,7 +1170,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/pesa-serverless-backend/dev/1665808894768-2022-10-15T04:41:34.768Z",
+    "artifactDirectoryName": "serverless/pesa-serverless-backend/dev/1665866140943-2022-10-15T20:35:40.943Z",
     "artifact": ""
   }
 }

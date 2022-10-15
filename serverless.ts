@@ -7,6 +7,7 @@ const serverlessConfiguration: AWS = {
 	service: 'pesa-serverless-backend',
 	frameworkVersion: '3',
 	plugins: [
+		'serverless-auto-swagger',
 		'serverless-esbuild',
 		'serverless-offline',
 		'serverless-dotenv-plugin',
@@ -35,17 +36,18 @@ const serverlessConfiguration: AWS = {
 	functions: { authorizer, me },
 	package: { individually: true },
 	custom: {
+		autoswagger: {
+			typefiles: ['./src/types/api-types.d.ts'],
+			apiType: 'http',
+			basePath: '/dev',
+			title: 'Pesa Serverless Backend',
+			generateSwaggerOnDeploy: true,
+			apiKeyHeaders: ['Authorization'],
+		},
 		esbuild: {
 			bundle: true,
 			minify: true,
-			sourcemap: true,
 			exclude: ['aws-sdk', 'pg-native'],
-			target: 'node14',
-			define: { 'require.resolve': undefined },
-			platform: 'node',
-			concurrency: 10,
-			packager: 'yarn',
-			packagePath: 'package.json',
 		},
 	},
 };

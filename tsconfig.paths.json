@@ -3,8 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "@functions/*": ["src/functions/*"],
-      "@libs/*": [
-        "src/libs/*"
+      "@shared/*": [
+        "src/shared/*"
       ],
       "@db/*": [
         "src/db/*"
