@@ -7,8 +7,8 @@ export interface UserInfo {
 	uid: string;
 	displayName: string;
 	email: string;
-	phoneNumber: string;
-	photoURL?: null;
+	phoneNumber: string | null;
+	photoURL?: null | string;
 	isAdmin: boolean;
 	teams?: TeamsEntity[] | null;
 	invitations?: InvitationsEntity[] | null;
@@ -122,3 +122,29 @@ export type ErrorResponse = {
 	error: string;
 	message: string;
 };
+
+export interface PlayerInitType {
+	uid: string;
+	email: string;
+	displayName: string;
+	photoURL?: string | null;
+}
+
+export interface PlayerResponse {
+	message: string;
+	userInfo: PlayerInfo;
+}
+
+export interface PlayerInfo {
+	uid: string;
+	email: string;
+	displayName: string;
+	photoURL: string | null;
+	phoneNumber: string | null;
+	isAdmin: boolean;
+	nationality: string | null;
+	nationalityPrefix: string | null;
+	createdAt: string | null;
+	updatedAt: string | null;
+	deletedAt: string | null;
+}

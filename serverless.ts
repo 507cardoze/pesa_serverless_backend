@@ -2,6 +2,7 @@ import type { AWS } from '@serverless/typescript';
 
 import me from '@functions/me';
 import authorizer from '@functions/authorizer';
+import player from '@functions/player';
 
 const serverlessConfiguration: AWS = {
 	service: 'pesa-serverless-backend',
@@ -33,7 +34,7 @@ const serverlessConfiguration: AWS = {
 		},
 	},
 	// import the function via paths
-	functions: { authorizer, me },
+	functions: { authorizer, me, player },
 	package: { individually: true },
 	custom: {
 		autoswagger: {
