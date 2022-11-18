@@ -11,13 +11,11 @@ const authorizer: APIGatewayTokenAuthorizerHandler = async (
 	try {
 		if (event.authorizationToken === 'Bearer Anthony')
 			return generateIamPolicy('Allow', event.methodArn, MOCK_USER_DATA.sub);
-		const bearerToken = getAuthToken(event.authorizationToken);
-		if (!bearerToken || typeof bearerToken === 'string')
-			return generateIamPolicy('Deny', event.methodArn);
+		const bearerToken = getAuthToken(event.authorizationToken) ?? '';
 
 		initializeSdk();
-		const decodedData = await admin.auth().verifyIdToken(bearerToken);
-		return generateIamPolicy('Allow', event.methodArn, decodedData.sub);
+		const decodedData = await admin.auth().verifyIdToken(bearerToken, true);
+		return generateIamPolicy('Allow', event.methodArn, decodedData.uid);
 	} catch (error) {
 		return generateIamPolicy('Deny', event.methodArn);
 	}

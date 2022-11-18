@@ -47,6 +47,58 @@
           }
         ]
       }
+    },
+    "/player": {
+      "post": {
+        "summary": "Create player if does not exist",
+        "description": "Create player if does not exist",
+        "tags": [
+          "Player"
+        ],
+        "operationId": "player.post.player",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body required in the request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PlayerInitType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/PlayerResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "internalServerError",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
     }
   },
   "definitions": {
@@ -102,11 +154,13 @@
         },
         "phoneNumber": {
           "title": "UserInfo.phoneNumber",
+          "nullable": true,
           "type": "string"
         },
         "photoURL": {
           "title": "UserInfo.photoURL",
-          "nullable": true
+          "nullable": true,
+          "type": "string"
         },
         "isAdmin": {
           "title": "UserInfo.isAdmin",
@@ -755,6 +809,125 @@
       ],
       "additionalProperties": false,
       "title": "ErrorResponse",
+      "type": "object"
+    },
+    "PlayerInitType": {
+      "properties": {
+        "uid": {
+          "title": "PlayerInitType.uid",
+          "type": "string"
+        },
+        "email": {
+          "title": "PlayerInitType.email",
+          "type": "string"
+        },
+        "displayName": {
+          "title": "PlayerInitType.displayName",
+          "type": "string"
+        },
+        "photoURL": {
+          "title": "PlayerInitType.photoURL",
+          "nullable": true,
+          "type": "string"
+        }
+      },
+      "required": [
+        "uid",
+        "email",
+        "displayName"
+      ],
+      "additionalProperties": false,
+      "title": "PlayerInitType",
+      "type": "object"
+    },
+    "PlayerResponse": {
+      "properties": {
+        "message": {
+          "title": "PlayerResponse.message",
+          "type": "string"
+        },
+        "userInfo": {
+          "$ref": "#/definitions/PlayerInfo",
+          "title": "PlayerResponse.userInfo"
+        }
+      },
+      "required": [
+        "message",
+        "userInfo"
+      ],
+      "additionalProperties": false,
+      "title": "PlayerResponse",
+      "type": "object"
+    },
+    "PlayerInfo": {
+      "properties": {
+        "uid": {
+          "title": "PlayerInfo.uid",
+          "type": "string"
+        },
+        "email": {
+          "title": "PlayerInfo.email",
+          "type": "string"
+        },
+        "displayName": {
+          "title": "PlayerInfo.displayName",
+          "type": "string"
+        },
+        "photoURL": {
+          "title": "PlayerInfo.photoURL",
+          "nullable": true,
+          "type": "string"
+        },
+        "phoneNumber": {
+          "title": "PlayerInfo.phoneNumber",
+          "nullable": true,
+          "type": "string"
+        },
+        "isAdmin": {
+          "title": "PlayerInfo.isAdmin",
+          "type": "boolean"
+        },
+        "nationality": {
+          "title": "PlayerInfo.nationality",
+          "nullable": true,
+          "type": "string"
+        },
+        "nationalityPrefix": {
+          "title": "PlayerInfo.nationalityPrefix",
+          "nullable": true,
+          "type": "string"
+        },
+        "createdAt": {
+          "title": "PlayerInfo.createdAt",
+          "nullable": true,
+          "type": "string"
+        },
+        "updatedAt": {
+          "title": "PlayerInfo.updatedAt",
+          "nullable": true,
+          "type": "string"
+        },
+        "deletedAt": {
+          "title": "PlayerInfo.deletedAt",
+          "nullable": true,
+          "type": "string"
+        }
+      },
+      "required": [
+        "uid",
+        "email",
+        "displayName",
+        "photoURL",
+        "phoneNumber",
+        "isAdmin",
+        "nationality",
+        "nationalityPrefix",
+        "createdAt",
+        "updatedAt",
+        "deletedAt"
+      ],
+      "additionalProperties": false,
+      "title": "PlayerInfo",
       "type": "object"
     }
   },

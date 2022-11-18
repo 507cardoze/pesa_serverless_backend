@@ -20,12 +20,13 @@ export async function initPlayer(sequelize: Sequelize) {
 			uid: {
 				type: new DataTypes.STRING(256),
 				primaryKey: true,
-				allowNull: false,
 				unique: true,
+				allowNull: false,
 			},
 			email: {
 				type: new DataTypes.STRING(256),
 				allowNull: false,
+				unique: true,
 			},
 			displayName: {
 				type: new DataTypes.STRING(256),
@@ -49,10 +50,12 @@ export async function initPlayer(sequelize: Sequelize) {
 			nationality: {
 				type: new DataTypes.STRING(256),
 				allowNull: true,
+				defaultValue: null,
 			},
 			nationalityPrefix: {
 				type: new DataTypes.STRING(256),
 				allowNull: true,
+				defaultValue: null,
 			},
 		},
 		{

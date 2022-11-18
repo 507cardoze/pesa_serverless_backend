@@ -1,5 +1,4 @@
 import admin from 'firebase-admin';
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 import { PolicyDocument } from 'aws-lambda';
 
 export const initializeSdk = () => {
@@ -19,13 +18,13 @@ export const initializeSdk = () => {
 export const generateIamPolicy = (
 	effect: string,
 	resource: string,
-	sub?: string
+	uid?: string
 ): {
 	principalId: string;
 	policyDocument: PolicyDocument;
 } => {
 	const authResponse = {
-		principalId: sub || 'user',
+		principalId: uid || 'user',
 		policyDocument: {
 			Version: '2012-10-17',
 			Statement: [
